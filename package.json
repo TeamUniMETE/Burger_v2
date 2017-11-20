@@ -1,0 +1,26 @@
+{
+  "name": "burger_applikasjon",
+  "version": "1.0.0",
+  "description": "A to do app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamUniMETE/Burger_v2.git"
+  },
+  "author": "Mads Østrem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeamUniMETE/Burger_v2/issues"
+  },
+  "homepage": "https://github.com/TeamUniMETE/Burger_v2#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "pg-promise": "^7.3.2"
+  }
+}
