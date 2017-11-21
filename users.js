@@ -32,9 +32,13 @@ router.post('/search', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
+/*
     var sql = `PREPARE get_user (text) AS
-                    SELECT users.loginname FROM users WHERE loginname=$1;
+                    SELECT * FROM users WHERE loginname%$1;
                     EXECUTE get_user('${upload.usersearch}')`;
+*/
+
+var sql = 'SELECT * FROM users';
 
     db.any(sql).then(function(data) {
 
