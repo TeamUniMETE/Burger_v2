@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="../public/css/mainStyle.css"/>
+  <link rel="stylesheet" href="../public/css/list.css"/>
+</head>
+<body>
+  <div class="container">
+        <div class="w-head">
+            <nav>
+                <ul class="w-nav">
+                    <li role="presentation"><a class="nav-items" href="#">Logout</a></li>
+                    <li role="presentation"><a class="nav-items" href="#">Profile</a></li>
+                    <li role="presentation"><a class="nav-items" href="#"/>Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="sidemenu">
+            <div class="info">
+                <button onclick="addGroup()">New Board</button>
+                <input id="searchusers" type="text">
+            </div>
+            <ul id="shareable">
+                <li id="board_category">Shared Boards</li>
+            </ul>
+            <ul id="private">
+                <li id="board_category">Private Boards</li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="content-head">
+                <h2 id="groupNameTxt"></h2>
+            </div>
+            <div id="groupContainer"></div>
+        </div>
+    </div>
+    <script src="group.js"></script>
+    <script src="task.js"></script>
+    <script src="searchusers.js"></script>
+</body>
+</html>

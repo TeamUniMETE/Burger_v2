@@ -1,0 +1,97 @@
+/*-----TEMPLATE-----*/
+
+body
+{
+  margin: 0;
+  padding: 0;
+  background: white;
+  font-family: sans-serif;
+  height: 100%;
+}
+.container {
+  display: grid;
+  grid-template-columns: 200px 600px 600px 1fr;
+  grid-template-areas:
+  "h h h h"
+  "s c c c"
+  ;
+}
+
+/*-----SET GRID AREAS FOR THE PAGE-----*/
+.sidemenu {
+  grid-area: s;
+}
+.content {
+  grid-area: c;
+}
+.w-head {
+  grid-area: h;
+}
+
+
+    /*-----HEADER-----*/
+    .w-head
+    {
+        height: 100px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+    .w-nav > li
+    {
+        display: inline;
+        float: right;
+        margin: 1em;
+        font-size: 20px;
+        transition: .3s;
+
+    }
+    .nav-items
+    {
+        text-decoration: none;
+        color: #eee;
+        transition: .3s;
+    }
+    .nav-items:hover
+    {
+        color: rgba(155, 200, 255, .8);
+        transition: .5s;
+    }
+    .w-nav > li:hover{
+        font-size: 23px;
+        color: #eee;
+        transition: .5s;
+    }
+
+/*-----CONTENT-----*/
+
+.sidemenu
+{
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 3fr 1fr 1fr;
+background-color: grey;
+height: 100%;
+}
+
+.sidemenu > ul {
+    padding: 0px;
+    margin
+
+}
+
+ul > #board_category
+{
+  list-style-type: none;
+  border-style: solid none solid none;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+/*-----DO YOUR WORK UNDER HERE------*/
+
+.group
+{
+    padding: 10px;
+    margin-left: 200px;
+}

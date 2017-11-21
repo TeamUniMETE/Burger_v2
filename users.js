@@ -28,6 +28,25 @@ router.get('/test', function(req, res) {
 
 });
 
+router.post('/search', bodyParser, function(req, res) {
+
+    var upload = JSON.parse(req.body);
+
+    var sql = `PREPARE get_user (text) AS
+                    SELECT users.loginname FROM users WHERE loginname=$1;
+                    EXECUTE get_user('${upload.usersearch}')`;
+
+    db.any(sql).then(function(data) {
+
+        res.status(200).json(data);
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+
+    });
+});
+
 router.post('/register', bodyParser, function (req, res) {
 
     var upload = JSON.parse(req.body);
