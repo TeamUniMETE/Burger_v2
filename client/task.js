@@ -32,6 +32,8 @@ function createTask(value, name) {
 
     let li = document.createElement('li');
     li.innerHTML = task;
+    li.draggable = true;
+    li.classList.add = "listItem";
 
     let buttons = document.createElement('div');
     buttons.classList.add('buttons');

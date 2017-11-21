@@ -28,17 +28,62 @@ router.get('/test', function(req, res) {
 
 });
 
-router.post('/search', bodyParser, function(req, res) {
+router.get('/search', function(req, res) {
+
+    var upload = {
+        loginname: "admin"
+    };
+
+    var sql = `PREPARE get_user(text) AS
+            SELECT users.loginname FROM users WHERE users.loginname LIKE '%'$1'%';
+            EXECUTE get_user('${upload.loginname}')`;
+
+    console.log(sql);
+
+    db.any(sql).then(function(data) {
+        console.log(data)
+        res.status(200).json(data);
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+
+    });
+
+});
+
+router.post('/search', bodyParser, function (req, res) {
 
     var upload = JSON.parse(req.body);
+    var search = upload.loginname;
+
+    /*var sql = `PREPARE get_users AS
+            SELECT * FROM users WHERE loginname LIKE '%%';
+            EXECUTE get_users`;*/
+
+    /*var sql = 'SELECT * FROM users WHERE loginname LIKE %' + search +'%;';
+*/
+var sql = `SELECT * FROM users WHERE loginname=$1;('${upload.loginname}')`;
+
+
+    db.any(sql).then(function(data) {
+        console.log(data)
+        res.status(200).json(data);
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+
+    });
+
+});
 
 /*
-    var sql = `PREPARE get_user (text) AS
-                    SELECT * FROM users WHERE loginname%$1;
-                    EXECUTE get_user('${upload.usersearch}')`;
-*/
 
-var sql = 'SELECT * FROM users';
+router.post('/search', bodyParser, function(req, res) {
+
+    var sql = `SELECT *
+     FROM users WHERE loginname LIKE "%admin%"`;
 
     db.any(sql).then(function(data) {
 
@@ -50,6 +95,7 @@ var sql = 'SELECT * FROM users';
 
     });
 });
+*/
 
 router.post('/register', bodyParser, function (req, res) {
 
@@ -86,6 +132,9 @@ router.post('/auth/', bodyParser, function (req, res) {
     var sql = `PREPARE get_user (text) AS
                     SELECT * FROM users WHERE loginname=$1;
                     EXECUTE get_user('${upload.loginname}')`;
+
+
+    console.log(sql);
 
     db.any(sql).then(function(data) {
 
