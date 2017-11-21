@@ -4,7 +4,10 @@ var db = require('./dbconnect');
 const bodyParser = require('body-parser').text();
 const jwt = require('jsonwebtoken');
 
+var secret = "greatmindcomesgreatresponsibilty";
+
 router.use(function (req, res, next) {
+
     var token = req.query['token'];
 
     if (!token) {
@@ -25,6 +28,21 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function(req, res) {
-    res.send('YOU ARE AT GROUPS');
-})
+
+    var sql = `PREPARE get_boards (text) AS
+            SELECT * FROM boardsview WHERE loginname=$1;
+            EXECUTE get_boards('${logindata.loginname}')`;
+
+            db.any(sql).then(function(data) {
+
+                db.any("DEALLOCATE get_boards");
+
+                res.status(200).json(data);
+
+            }).catch(function(err) {
+
+                res.status(500).json(err);
+            });
+});
+
 module.exports = router;
