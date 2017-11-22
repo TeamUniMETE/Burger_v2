@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
-  <link rel="stylesheet" href="../../public/css/mainStyle.css"/>
-  <link rel="stylesheet" href="../../public/css/list.css"/>
-  <link rel="stylesheet" href="../../public/css/drag.css"/>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="../../public/css/mainStyle.css" />
+    <link rel="stylesheet" href="../../public/css/list.css" />
+    <link rel="stylesheet" href="../../public/css/drag.css" />
 </head>
+
 <body>
-  <div class="container">
+    <div class="container">
         <div class="w-head">
             <nav>
+                <div class="search">
+                    <input id="user_search" type="text"/>
+                    <button id="searchUsers_btn">search</button>
+                </div>
                 <ul class="w-nav">
                     <li role="presentation"><a class="nav-items" href="#">Logout</a></li>
                     <li role="presentation"><a class="nav-items" href="#">Profile</a></li>
-                    <li role="presentation"><a class="nav-items" href="#"/>Dashboard</a></li>
+                    <li role="presentation"><a class="nav-items" href="#" />Dashboard</a>
+                    </li>
                 </ul>
             </nav>
         </div>
         <div class="sidemenu">
-            <input id="searchusers" type="text">
-            <button id="searchUsers_btn">search</button>
             <div class="info">
                 <button onclick="addList()">New List</button>
-                <input id="listName" type="text"/>
+                <input id="listName" type="text" />
             </div>
             <ul id="public">
                 <li id="board_category">Shared Boards</li>
@@ -44,4 +49,5 @@
     <script src="../js/group.js"></script>
 
 </body>
+
 </html>

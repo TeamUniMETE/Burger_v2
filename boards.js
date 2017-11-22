@@ -6,9 +6,12 @@ const jwt = require('jsonwebtoken');
 
 var secret = "greatmindcomesgreatresponsibilty";
 
+/*
 router.use(function (req, res, next) {
 
     var token = req.query['token'];
+
+    console.log('token' + token);
 
     if (!token) {
         res.status(403).json({msg: "No token received"}); //send
@@ -26,25 +29,29 @@ router.use(function (req, res, next) {
 
     next();
 });
-
-router.post('/getboard', bodyParser, function(req, res) {
+*/
+router.post('/newlist', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
-    var sql = `PREPARE get_boards (int) AS
-            SELECT * FROM board WHERE boardname=$1;
-            EXECUTE get_boards('${board.boardId}')`;
+    console.log('upload' + upload);
 
-            db.any(sql).then(function(data) {
+    var sql = `PREPARE insert_list (int, text, boolean, int) AS
+            INSERT INTO list VALUES(DEFAULT, $2, $3, $4);
+            EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}')`;
 
-                db.any("DEALLOCATE get_boards");
+    console.log(sql);
 
-                res.status(200).json(data);
+    db.any(sql).then(function(data) {
 
-            }).catch(function(err) {
+        res.status(200).json(data);
+        console.log(data);
 
-                res.status(500).json(err);
-            });
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
 });
+
 
 module.exports = router;

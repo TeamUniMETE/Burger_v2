@@ -1,20 +1,15 @@
-var user = document.getElementById('searchusers');
 var button = document.getElementById('searchUsers_btn');
-
-
 button.onclick = searchUser;
 
 function searchUser() {
 
-    var upload = JSON.stringify({
-        loginname: user.value
-    });
+    var user = document.getElementById('user_search').value;
+    console.log(user);
 
-    var url = 'http://localhost:3000/users/search';
+    var url = 'http://localhost:3000/users/search?user=' + user;
 
     var cfg = {
-        method: "POST",
-        body: upload
+        method: 'GET'
     }
 
     superfetch(url, "json", succ, error, cfg);

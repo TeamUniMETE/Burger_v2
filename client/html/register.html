@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>register</title>
+    <meta charset="UTF-8">
+    <title>register</title>
 </head>
+
 <body>
-  <div class="container">
-      <div class="w-head">
-          <nav>
-            <ul class="w-nav">
-                <li role="presentation"><a class="nav-items" href="/users/logout">Logout</a></li>
-                <li role="presentation"><a class="nav-items" href="/users/register">Register</a></li>
-                <li role="presentation"><a class="nav-items" href="/users/login">Login</a></li>
-                <li role="presentation"><a class="nav-items" href="/"/>Dashboard</a></li>
-            </ul>
-          </nav>
-      </div>
-      <div class="register">
-          <input id="username" type="text" placeholder="username"/>
-          <input id="password" type="password" placeholder="password"/>
-          <input id="fullname" type="text" placeholder="full name"/>
-          <button onclick="register()">register</button>
-      </div>
+    <div class="container">
+        <div class="w-head">
+            <nav>
+                <ul class="w-nav">
+                    <li role="presentation"><a class="nav-items" href="/users/logout">Logout</a></li>
+                    <li role="presentation"><a class="nav-items" href="/users/register">Register</a></li>
+                    <li role="presentation"><a class="nav-items" href="/users/login">Login</a></li>
+                    <li role="presentation"><a class="nav-items" href="/" />Dashboard</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="register">
+            <input id="username" type="text" placeholder="username" />
+            <input id="password" type="password" placeholder="password" />
+            <input id="fullname" type="text" placeholder="full name" />
+            <button onclick="register()">register</button>
+        </div>
 
     </div>
     <div class="footer">
@@ -30,7 +33,6 @@
     <script src="../js/fetch.js"></script>
 </body>
 <script>
-
     var username = document.getElementById('username');
     var password = document.getElementById('password');
     var fullname = document.getElementById('fullname');
@@ -64,6 +66,6 @@
     function error(err) {
         console.log(err);
     }
-
 </script>
+
 </html>

@@ -12,32 +12,15 @@ router.get('/', function(req, res) {
     res.send('you are at /users');
 });
 
-router.get('/test', function(req, res) {
+router.get('/search', bodyParser, function (req, res) {
 
-    var sql = 'SELECT * FROM users';
-
-    db.any(sql).then(function(data) {
-        //send logininfo + token to the client
-        res.status(200).json(data);
-
-    }).catch(function(err) {
-
-        res.status(500).json({err});
-
-    });
-
-});
-
-router.post('/search', bodyParser, function (req, res) {
-
-    var upload = JSON.parse(req.body);
+    var upload = req.query.user;
 
     var sql = `PREPARE get_user(text) AS
             SELECT users.loginname FROM users WHERE users.loginname=$1;
-            EXECUTE get_user('${upload.loginname}')`;
+            EXECUTE get_user('${upload}')`;
 
     db.any(sql).then(function(data) {
-        db.any('DELLOCATE get_user');
 
     if (data.length <= 0) {
         res.status(403).json({msg: "User does not exists"}); //send
@@ -53,34 +36,6 @@ router.post('/search', bodyParser, function (req, res) {
 
     });
 
-});
-router.post('/newlist', bodyParser, function(req, res) {
-
-    var upload = JSON.parse(req.body);
-
-    var sql = `PREPARE insert_list(int, text, boolean, int) AS
-            INSERT INTO list (DEFAULT, $2, $3, $4);
-            EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}')`;
-
-    db.any(sql).then(function(data) {
-        //send logininfo + token to the client
-        res.status(200).json(data);
-        console.log(data);
-
-    }).catch(function(err) {
-
-        res.status(500).json({err});
-        console.log(data)
-    });
-});
-
-router.post('/getboard', function(req, res) {
-
-    var upload = req.query.token
-
-    var sql = `PREPARE get_board(text) AS
-            SELECT * FROM boards WHERE boards.id=$1;
-            EXECUTE get_board('${upload.board_id}')`;
 });
 
 router.post('/register', bodyParser, function (req, res) {

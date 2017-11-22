@@ -16,7 +16,7 @@ function addList() {
     }else{
         createList(listName);
     }
-}
+};
 
 function addTask(value) {
 
@@ -25,7 +25,7 @@ function addTask(value) {
     }else{
         createTask(value);
     }
-}
+};
 
 
 //CREATING FUNCTIONS
@@ -170,13 +170,15 @@ listContainer.appendChild(ul);
         console.log('CLICKED SAVE BUTTON');
 
         var list = this.parentNode.parentNode.parentNode.id;
-        var user_info = localStorage.getItem('logindata');
-        var logindata = JSON.parse(user_info);
+        var user_all_info = localStorage.getItem('logindata');
+        var user = JSON.parse(user_all_info);
+
+        //var token = user.token;
 
         var upload = JSON.stringify({
             list_name: list,
             private: priv,
-            user_id: logindata.id
+            user_id: user.id
         });
 
         var cfg = {
@@ -184,7 +186,7 @@ listContainer.appendChild(ul);
             body: upload
         };
 
-        var url = "http://localhost:3000/users/newlist/";
+        var url = "http://localhost:3000/boards/newlist";
 
         superfetch(url, "json", succ, error, cfg);
 
