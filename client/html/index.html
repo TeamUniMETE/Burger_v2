@@ -19,12 +19,13 @@
             </nav>
         </div>
         <div class="sidemenu">
+            <input id="searchusers" type="text">
+            <button id="searchUsers_btn">search</button>
             <div class="info">
-                <button onclick="addGroup()">New Board</button>
-                <input id="searchusers" type="text">
-                <button id="searchUsers_btn">search</button>
+                <button onclick="addList()">New List</button>
+                <input id="listName" type="text"/>
             </div>
-            <ul id="shareable">
+            <ul id="public">
                 <li id="board_category">Shared Boards</li>
             </ul>
             <ul id="private">
@@ -33,15 +34,14 @@
         </div>
         <div class="content">
             <div class="content-head">
-                <h2 id="groupNameTxt"></h2>
             </div>
-            <div id="groupContainer"></div>
+            <div id="listContainer"></div>
         </div>
     </div>
-    <script src="../js/group.js"></script>
-    <script src="../js/task.js"></script>
+
     <script src="../js/fetch.js"></script>
     <script src="../js/searchusers.js"></script>
-    <script src="../js/drag.js"></script>
+    <script src="../js/group.js"></script>
+
 </body>
 </html>

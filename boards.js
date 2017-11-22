@@ -27,11 +27,13 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.get('/', function(req, res) {
+router.post('/getboard', bodyParser, function(req, res) {
 
-    var sql = `PREPARE get_boards (text) AS
-            SELECT * FROM boardsview WHERE loginname=$1;
-            EXECUTE get_boards('${logindata.loginname}')`;
+    var upload = JSON.parse(req.body);
+
+    var sql = `PREPARE get_boards (int) AS
+            SELECT * FROM board WHERE boardname=$1;
+            EXECUTE get_boards('${board.boardId}')`;
 
             db.any(sql).then(function(data) {
 

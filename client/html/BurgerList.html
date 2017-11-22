@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Testing...</title>
+  <script src="superlist.js"></script>
+</head>
+
+<body>
+    <div id="myDIV" class="header">
+      <h2>Burger</h2>
+      <input type="text" id="myInput" placeholder="Title...">
+      <span onclick="addToList()" class="addBtn">Add</span>
+    </div>
+    <div id="myList"></div>
+    <div class="footer"></div>
+</body>
+    
+<script>
+    
+    var inpDate = document.getElementById("inpDate");
+    var btn = document.getElementById("btn");
+    var outText = document.getElementById("outText");
+    
+   
+    var mylist = superlist();
+    document.getElementById("myList").appendChild(mylist);
+    
+    // Create a "close" button and append it to each list item
+    var i;
+    for (i = 0; i < mylist.length; i++) {
+      var span = document.createElement("SPAN");
+      var txt = document.createTextNode("\u00D7");
+      span.className = "close";
+      span.appendChild(txt);
+      mylist[i].appendChild(span);
+        
+    }
+    
+    // Click on a close button to hide the current list item
+    var close = document.getElementsByClassName("close");
+    var j;
+    for (j = 0; j < close.length; j++) {
+      close[j].onclick = function() {
+        var div = this.parentElement;
+        //div.style.display = "none";
+        mylist.removeChild(div);
+      }
+    }
+    
+    // Add a "checked" symbol when clicking on a list item
+    var list = document.querySelector('ul');
+    list.addEventListener('click', function(ev) {
+      if (ev.target.tagName === 'LI') {
+        ev.target.classList.toggle('checked');
+      }
+    }, false);
+    
+    var title = myInput.value;
+    
+    // Create a new list item when clicking on the "Add" button
+    function addToList() {
+      //var li = document.createElement("li");
+      var inputValue = document.getElementById("myInput").value;
+      //var t = document.createTextNode(inputValue);
+      //li.appendChild(t);
+            
+      var html = `<span class="up" href="#" onclick="MoveItem(this.parentNode, 1)"> ^ </span>
+                  <span class="down" href="#" onclick="MoveItem(this.parentNode, -1)"> v </span>
+                  <h3>${myInput.value}</h3>
+                  <textarea placeholder="Comment..."></textarea>
+                  <input type="date" id="inpDate" placeholder="Enter a year" >
+                  <select id="priority" class="prio" onchange="setPriority(this)">
+                      <option value="0">No priority</option>
+                      <option value="1">High</option>
+                      <option value="2">Medium</option>
+                      <option value="3">Low</option>
+                  </select>
+                  <span class="close">x<span>`;
+        
+      if (inputValue === '') {
+        alert("You must write something!");
+      } else {
+          document.getElementById("myInput").value = "";
+
+          var span = document.createElement("SPAN");
+          var txt = document.createTextNode("\u00D7");
+          span.className = "close";
+          span.appendChild(txt);
+          //li.appendChild(span);
+          mylist.addElement(html)
+      }
+
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+          var div = this.parentElement;
+            console.log(div);
+          //div.style.display = "none";
+          mylist.removeChild(div);
+        }
+      }
+    }    
+    
+    
+    function setPriority(priority){
+        console.log(priority);
+        console.log(priority.value);
+        console.log(priority.parentElement);
+        if (priority.value == 0){
+            priority.parentElement.className = "";
+        }
+        if (priority.value == 1){
+            priority.parentElement.className = " high";
+        }
+        else if (priority.value == 2){
+            priority.parentElement.className = " medium";
+        }
+        else if (priority.value == 3){
+            priority.parentElement.className = " low";
+        }
+    }
+    
+    
+    function MoveItem(item, direction) {
+        
+        if (direction == 1){
+            if(item.previousSibling != null){
+                var prev = item.previousSibling;
+                item.parentNode.insertBefore(item, prev);
+            }
+        }
+        else if(direction == -1){
+            if(item.nextSibling != null){
+                var next = item.nextSibling.nextSibling;
+                item.parentNode.insertBefore(item, next);
+            }
+        }
+    }
+    
+    function insertAfter(newNode, referenceNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+    
+</script>
+    
+<style>
+    
+       /* Include the padding and border in an element's total width and height */
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Remove margins and padding from the list */
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Style the list items */
+    ul li {
+        display: flex;
+        align-items: center;
+        
+        cursor: pointer;
+        position: relative;
+        padding: 12px 8px 12px 40px;
+        margin-right: 10px;
+        margin-left: 50px;
+        /*margin-right: 100px;*/
+        background: #eee;
+        font-size: 18px;
+        transition: 0.2s;
+
+        /* make the list items unselectable */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    ul li.input {
+        background-color: #eee;
+    }
+
+    /* Set all odd list items to a different color (zebra-stripes) */
+    ul li:nth-child(odd) {
+        background: #f9f9f9;
+    }
+    
+        /* Set all odd list items to a different color (zebra-stripes) */
+    ul li.input:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /* Darker background-color on hover */
+    ul li:hover {
+        background: #ddd;
+    }
+
+    /* When clicked on, add a background color and strike out text */
+    ul li.checked {
+        background: #706f6e;
+        color: #fff;
+        text-decoration: line-through;
+        content: '✓';
+        align-content: center;
+    }
+    
+    ul li.checked:nth-child(odd) {
+        background: #828282;
+    }
+    
+    ul li.high{
+        background: #e84c41;
+    }
+    
+    ul li.high:hover{
+        background: #c93f36;
+    }
+    
+    
+    ul li.high:nth-child(odd){
+        background: #ff584c;
+    }
+    
+    ul li.high:nth-child(odd):hover{
+        background: #c93f36;
+    }
+    
+    ul li.high.checked {
+        background: #706f6e;
+        color: #fff;
+        text-decoration: line-through;
+    }
+    
+    ul li.high.checked:nth-child(odd) {
+        background: #828282;;
+    }
+    
+    ul li.medium{
+        background: #edde5b;
+    }
+    
+    ul li.medium:hover{
+        background: #cfc04d;
+    }
+    
+    ul li.medium:nth-child(odd){
+        background: #fff264;
+    }
+    ul li.medium:nth-child(odd):hover{
+        background: #cfc04d;
+    }
+    
+    ul li.medium.checked {
+        background: #706f6e;
+        color: #fff;
+        text-decoration: line-through;
+    }
+    
+    ul li.medium.checked:nth-child(odd) {
+        background: #828282;
+    }
+    
+    ul li.low{
+        background: #80d953;
+    }
+    
+    ul li.low:hover{
+        background: #70ba47;
+    }
+    
+    ul li.low:nth-child(odd){
+        background: #8cf25c;
+    }
+    
+    ul li.low:nth-child(odd):hover{
+        background: #70ba47;
+    }
+    
+    ul li.low.checked {
+        background: #706f6e;
+        color: #fff;
+        text-decoration: line-through;
+    }
+    
+    ul li.low.checked:nth-child(odd) {
+        background: #828282;;
+    }
+    
+    ul li.checked>.up {
+        background: #545251;
+    }
+    
+    ul li.checked>.up:hover {
+        background: #424140;
+    }
+    
+    ul li.checked>.down {
+        background: #545251;
+    }
+    
+    ul li.checked>.down:hover {
+        background: #424140;
+    }
+    
+    ul li.high.checked>.up {
+        background: #545251;
+    }
+    
+    ul li.high.checked>.up:hover {
+        background: #424140;
+    }
+    
+    ul li.high.checked>.down {
+        background: #545251;
+    }
+    
+    ul li.high.checked>.down:hover {
+        background: #424140;
+    }
+    
+    ul li.medium.checked>.up {
+        background: #545251;
+    }
+    
+    ul li.medium.checked>.up:hover {
+        background: #424140;
+    }
+    
+    ul li.medium.checked>.down {
+        background: #545251;
+    }
+    
+    ul li.medium.checked>.down:hover {
+        background: #424140;
+    }
+    
+    ul li.low.checked>.up {
+        background: #545251
+    }
+    
+    ul li.low.checked>.up:hover {
+        background: #424140;
+    }
+    
+    ul li.low.checked>.down {
+        background: #545251;
+    }
+    
+    ul li.low.checked>.down:hover {
+        background: #424140;
+    }
+    
+    ul li>h3{
+        padding-left: 2em;
+        margin-right: 10px;
+        font-family: sans-serif;
+    }
+
+    /* Add a "checked" mark when clicked on */
+    ul li.checked::before {
+        content: '';
+        position: absolute;
+        border-color: #fff;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        top: 10px;
+        left: 16px;
+        transform: rotate(45deg);
+        height: 15px;
+        width: 7px;
+    }
+
+    /* Style the close button */
+    .close {
+        position: absolute;
+        right: 0;
+        margin-right: 1em;
+        /*top: 0;*/
+        padding: 12px 16px 12px 16px;
+        font-family: sans-serif;
+    }
+    
+    .close:hover {
+        background-color: #f44336;
+        color: white;
+    }
+    
+    .up {
+        position: absolute;
+        left: -40px;
+        top: 0;
+        height: 50%;
+        font-size: 1.1em;
+        margin-right: 3px;
+        background: #d9d9d9;
+        color: black;
+        padding: 12px 16px 12px 16px;
+        font-family: sans-serif;
+    }
+
+    .up:hover {
+        background-color: #bbb;
+        color: white;
+    }
+    
+    ul li.high>.up{
+        background: #c93f36;
+    }
+    ul li.high>.up:hover{
+        background: #ab362e;
+    }
+    
+    ul li.high>.down{
+        background: #c93f36;
+    }
+    ul li.high>.down:hover{
+        background: #ab362e;
+    }
+    
+    ul li.medium>.up{
+        background: #cfc04d;
+    }
+    ul li.medium>.up:hover{
+        background: #a89c3f;
+    }
+    
+    ul li.medium>.down{
+        background: #cfc04d;
+    }
+    ul li.medium>.down:hover{
+        background: #a89c3f;
+    }
+    
+    
+    ul li.low>.up{
+        background: #70ba47;
+    }
+    ul li.low>.up:hover{
+        background: #5e9c3c;
+    }
+    
+    ul li.low>.down{
+        background: #70ba47;
+    }
+    ul li.low>.down:hover{
+        background: #5e9c3c;
+    }
+    
+    .down {
+        position: absolute;
+        left: -40px;
+        bottom: 0;
+        height: 50%;
+        margin-right: 3px;
+        background: #d9d9d9;
+        color: black;
+        padding: 12px 16px 12px 16px;
+        font-family: sans-serif;
+    }
+
+    .down:hover {
+        background-color: #bbb;
+        color: white;
+    }
+
+    /* Style the header */
+    .header {
+        background-color: #d6964d;
+        padding: 30px 40px;
+        color: white;
+        text-align: center;
+        font-family: sans-serif;
+        border-radius: 100px 100px 0px 0px;
+    }
+
+    /* Clear floats after the header */
+    .header:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .footer {
+        background-color: #d6964d;
+        padding: 30px 40px;
+        color: white;
+        text-align: center;
+        font-family: sans-serif;
+        border-radius: 0px 0px 100px 100px;
+    }
+
+    /* Style the input */
+    input {
+        border: none;
+        width: 75%;
+        padding: 10px;
+        float: left;
+        font-size: 16px;
+    }
+
+    /* Style the "Add" button */
+    .addBtn {
+        padding: 10px;
+        width: 25%;
+        background: #d9d9d9;
+        color: #555;
+        float: left;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .addBtn:hover {
+        background-color: #bbb;
+    }
+    
+    textarea {
+        margin-left: 2em;
+        border: none;
+        height: 3em;
+        width: 14em;
+        padding: 3px;
+        transition: all 0.5s ease;
+    }
+    
+    textarea:focus {
+        margin-left: 2em;
+        height: 10em;
+        width: 14em;
+    }
+    
+    #inpDate{
+        margin-left: 2em;
+        margin-right: 2em;
+        width: 25%;
+    }
+    
+    select{
+        border: none;
+        padding: 10px;
+        display: inline-block;
+        float: right;
+        font-size: 16px;
+    }
+    
+    
+</style>
+    
+
+    
+</html>

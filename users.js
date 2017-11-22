@@ -54,8 +54,29 @@ router.post('/search', bodyParser, function (req, res) {
     });
 
 });
+router.post('/newlist', bodyParser, function(req, res) {
 
-router.post('/getboard', bodyParser, function(req, res) {
+    var upload = JSON.parse(req.body);
+
+    var sql = `PREPARE insert_list(int, text, boolean, int) AS
+            INSERT INTO list (DEFAULT, $2, $3, $4);
+            EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}')`;
+
+    db.any(sql).then(function(data) {
+        //send logininfo + token to the client
+        res.status(200).json(data);
+        console.log(data);
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+        console.log(data)
+    });
+});
+
+router.post('/getboard', function(req, res) {
+
+    var upload = req.query.token
 
     var sql = `PREPARE get_board(text) AS
             SELECT * FROM boards WHERE boards.id=$1;
@@ -123,11 +144,11 @@ router.post('/auth/', bodyParser, function (req, res) {
         }
 
         //we have a valid user -> create the token
-        var payload = {loginname: data[0].loginname, fullname: data[0].fullname};
+        var payload = {id: data[0].id, loginname: data[0].loginname, fullname: data[0].fullname};
         var tok = jwt.sign(payload, secret, {expiresIn: "12h"});
 
         //send logininfo + token to the client
-        res.status(200).json({loginname: data[0].loginname, fullname: data[0].fullname, token: tok});
+        res.status(200).json({id: data[0].id, loginname: data[0].loginname, fullname: data[0].fullname, token: tok});
     }).catch(function(err) {
 
         res.status(500).json({err});
