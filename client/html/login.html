@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>register</title>
+  <title>login</title>
 </head>
 <body>
   <div class="container">
@@ -16,34 +16,32 @@
             </ul>
           </nav>
       </div>
-      <div class="register">
+      <div class="login-field">
           <input id="username" type="text" placeholder="username"/>
           <input id="password" type="password" placeholder="password"/>
-          <input id="fullname" type="text" placeholder="full name"/>
-          <button onclick="register()">register</button>
+          <button onclick="login()">login</button>
       </div>
 
     </div>
     <div class="footer">
 
     </div>
-    <script src="fetch.js"></script>
+    <script src="../js/fetch.js"></script>
 </body>
 <script>
 
     var username = document.getElementById('username');
     var password = document.getElementById('password');
-    var fullname = document.getElementById('fullname');
 
-    function register() {
+    function login() {
 
         var upload = JSON.stringify({
             loginname: username.value,
-            password: password.value,
-            fullname: fullname.value
+            password: password.value
         });
 
-        var url = "https://burgerapplication.herokuapp.com/users/register/";
+        //var url = "https://burgerapplication.herokuapp.com/users/auth/";
+        var url = "http://localhost:3000/users/auth/";
 
         var cfg = {
             method: "POST",
@@ -51,19 +49,20 @@
         }
 
         superfetch(url, "json", succ, error, cfg);
-    };
-
-    function succ(data) {
-        //save logindata/token to localStorage
-        localStorage.setItem("logindata", JSON.stringify(data));
-        console.log(data);
-        window.location.replace('login.html');
     }
 
-    //error ----------------------------------------
+    function succ(data) {
+
+        console.log(data);
+
+        localStorage.setItem("logindata", JSON.stringify(data));
+        window.location.replace('index.html');
+    }
+
     function error(err) {
         console.log(err);
     }
+
 
 </script>
 </html>

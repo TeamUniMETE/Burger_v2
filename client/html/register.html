@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>login</title>
+  <title>register</title>
 </head>
 <body>
   <div class="container">
@@ -16,32 +16,34 @@
             </ul>
           </nav>
       </div>
-      <div class="login-field">
+      <div class="register">
           <input id="username" type="text" placeholder="username"/>
           <input id="password" type="password" placeholder="password"/>
-          <button onclick="login()">login</button>
+          <input id="fullname" type="text" placeholder="full name"/>
+          <button onclick="register()">register</button>
       </div>
 
     </div>
     <div class="footer">
 
     </div>
-    <script src="fetch.js"></script>
+    <script src="../js/fetch.js"></script>
 </body>
 <script>
 
     var username = document.getElementById('username');
     var password = document.getElementById('password');
+    var fullname = document.getElementById('fullname');
 
-    function login() {
+    function register() {
 
         var upload = JSON.stringify({
             loginname: username.value,
-            password: password.value
+            password: password.value,
+            fullname: fullname.value
         });
 
-        //var url = "https://burgerapplication.herokuapp.com/users/auth/";
-        var url = "http://localhost:3000/users/auth/";
+        var url = "https://burgerapplication.herokuapp.com/users/register/";
 
         var cfg = {
             method: "POST",
@@ -49,20 +51,19 @@
         }
 
         superfetch(url, "json", succ, error, cfg);
-    }
+    };
 
     function succ(data) {
-
-        console.log(data);
-
+        //save logindata/token to localStorage
         localStorage.setItem("logindata", JSON.stringify(data));
-        window.location.replace('main.html');
+        console.log(data);
+        window.location.replace('login.html');
     }
 
+    //error ----------------------------------------
     function error(err) {
         console.log(err);
     }
-
 
 </script>
 </html>

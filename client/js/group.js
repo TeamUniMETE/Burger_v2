@@ -1,6 +1,7 @@
 var groupName;
 var priv;
 
+
 function addGroup() {
     var txt;
     groupName = prompt("Group name", "");
@@ -18,8 +19,9 @@ function addGroup() {
     }
 }
 
-function createGroup(name, priv){
 
+function createGroup(name, boolean){
+    var priv = boolean;
 
     var groupContainer = document.getElementById('groupContainer');
     var groupNameTxt = document.getElementById('groupNameTxt');
@@ -30,8 +32,28 @@ function createGroup(name, priv){
 
     var sLiDiv = document.createElement('div');
     sLiDiv.id = name;
+
     var sLi = document.createElement('li');
     sLi.innerHTML = name;
+    sLi.id = name;
+
+    //Sidemenu board onclick--retrieves the id of the board
+    sLi.addEventListener('click', function(e){
+
+        let boardId = e.target.id;
+        var url = 'http://localhost:3000/users/getboard';
+
+        let upload = JSON.stringify({
+            board_id: boardId
+        });
+
+        let cfg = {
+            method: "POST",
+            body: upload
+        }
+
+        superfetch(url, "json", succ, error, cfg);
+    });
 
     sLi.appendChild(sLiDiv);
 

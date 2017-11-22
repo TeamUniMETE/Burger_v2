@@ -10,7 +10,9 @@ function removeTask(evt) {
 
 function completeTask(evt) {
     let item = this.parentNode.parentNode;
-    if(this.innerHTML == "completed") {
+
+
+    if(item.classList == "neutral") {
 
         this.innerHTML = "Uncheck";
         item.classList.remove("neutral");
@@ -30,22 +32,22 @@ function createTask(value, name) {
 
     var ul = document.getElementById(name + "task");
 
-    let li = document.createElement('li');
+    var li = document.createElement('li');
     li.innerHTML = task;
-    li.draggable = true;
-    li.classList.add = "listItem";
+    li.classList.add("neutral");
+
 
     let buttons = document.createElement('div');
     buttons.classList.add('buttons');
 
     let remove = document.createElement('button');
-    remove.classList.add('remove');
+    remove.classList.add('rem_btn');
     remove.innerHTML = "remove";
 
     remove.addEventListener('click', removeTask);
 
     let complete = document.createElement('button');
-    complete.classList.add('completed');
+    complete.classList.add('com_btn');
     complete.innerHTML = "completed";
 
     complete.addEventListener('click', completeTask);
