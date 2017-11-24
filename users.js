@@ -22,12 +22,16 @@ router.get('/search', bodyParser, function (req, res) {
 
     db.any(sql).then(function(data) {
 
+        db.any("DEALLOCATE get_user");
+
     if (data.length <= 0) {
         res.status(403).json({msg: "User does not exists"}); //send
         return; //quit
     } else {
 
+    console.log(data);
     res.status(200).json(data);
+
     }
 
     }).catch(function(err) {

@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 var secret = "greatmindcomesgreatresponsibilty";
 
-/*
+
 router.use(function (req, res, next) {
 
     var token = req.query['token'];
@@ -29,7 +29,7 @@ router.use(function (req, res, next) {
 
     next();
 });
-*/
+
 router.post('/newlist', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
@@ -52,6 +52,12 @@ router.post('/newlist', bodyParser, function(req, res) {
         res.status(500).json({err});
     });
 });
+
+router.get('/getlist', function(req, res) {
+
+    var upload = req.query.user;
+});
+
 
 
 module.exports = router;

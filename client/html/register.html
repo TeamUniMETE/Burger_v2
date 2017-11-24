@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>register</title>
+    <link rel="stylesheet" href="../../public/css/reg_log.css" />
+    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 </head>
 
 <body>
@@ -11,19 +13,35 @@
         <div class="w-head">
             <nav>
                 <ul class="w-nav">
-                    <li role="presentation"><a class="nav-items" href="/users/logout">Logout</a></li>
-                    <li role="presentation"><a class="nav-items" href="/users/register">Register</a></li>
-                    <li role="presentation"><a class="nav-items" href="/users/login">Login</a></li>
-                    <li role="presentation"><a class="nav-items" href="/" />Dashboard</a>
+                    <li role="presentation"><a class="nav-items" href="#">Logout</a></li>
+                    <li role="presentation"><a class="nav-items" href="register.html">Register</a></li>
+                    <li role="presentation"><a class="nav-items" href="login.html">Login</a></li>
+                    <li role="presentation"><a class="nav-items" href="#" />Dashboard</a>
                     </li>
                 </ul>
             </nav>
         </div>
-        <div class="register">
-            <input id="username" type="text" placeholder="username" />
-            <input id="password" type="password" placeholder="password" />
-            <input id="fullname" type="text" placeholder="full name" />
-            <button onclick="register()">register</button>
+        <div class="content">
+            <span class="intro">
+                <h2 id="intro-nav">Register</h2>
+                <p>Sign up for burger</p>
+             </span>
+            <div class="field">
+                <section class="input-content">
+                    <h2>Register</h2>
+                    <div class="input-div-field">
+                        <input name="fullname" class="input-field" id="fullname" type="text" placeholder="Full Name" />
+                    </div>
+                    <div class="input-div-field">
+                        <input name="username" class="input-field" id="username" type="text" placeholder="Username" />
+                    </div>
+                    <div class="input-div-field">
+                        <input name="password" class="input-field" id="password" type="password" placeholder="Password" />
+
+                    </div>
+                    <button type="submit" name="" value="">Register</button>
+                </section>
+            </div>
         </div>
 
     </div>
@@ -45,7 +63,8 @@
             fullname: fullname.value
         });
 
-        var url = "https://burgerapplication.herokuapp.com/users/register/";
+        var url = "http://localhost:3000/users/register/"; //Localhost url -----*
+        //var url = "https://burgerapplication.herokuapp.com/users/register/"; //Heroku url -----*
 
         var cfg = {
             method: "POST",

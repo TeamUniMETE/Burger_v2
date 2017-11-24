@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>login</title>
+    <link rel="stylesheet" href="../../public/css/reg_log.css" />
+    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 </head>
 
 <body>
@@ -19,12 +21,24 @@
                 </ul>
             </nav>
         </div>
-        <div class="login-field">
-            <input id="username" type="text" placeholder="username" />
-            <input id="password" type="password" placeholder="password" />
-            <button onclick="login()">login</button>
+        <div class="content">
+            <span class="intro">
+              <h2 id="intro-nav">Register</h2>
+              <p>Sign up for burger</p>
+            </span>
+            <div class="field">
+                <section class="input-content">
+                    <h2>login</h2>
+                    <div class="input-div-field">
+                        <input name="username" class="input-field" id="username" type="text" placeholder="Username" />
+                    </div>
+                    <div class="input-div-field">
+                        <input name="password" class="input-field" id="password" type="password" placeholder="Password" />
+                    </div>
+                    <button onclick="login()" type="submit">Register</button>
+                </section>
+            </div>
         </div>
-
     </div>
     <div class="footer">
 

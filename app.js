@@ -15,8 +15,8 @@ var users = require('./users');
 app.use('/users', users);
 
 //----GROUPROUTE----//
-var boards = require('./boards');
-app.use('/boards', boards);
+var lists = require('./lists');
+app.use('/lists', lists);
 
 
 //-------------------------//

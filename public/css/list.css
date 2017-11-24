@@ -1,38 +1,13 @@
-#groupContainer
-{
-    width: 500px;
-}
 
-.group > ul
+/*-----DONT CHANGE THE HIEARCHY-----*/
+.neutral
 {
-    width: 500px;
-}
-.group > li
-{
-    list-style-type: none;
-    width: 500px;
-    height: 40px;
-    padding-top: 10px;
-    padding-left: 5px;
-    border-style: solid solid none solid;
-}
-.group > li:first-child
-{
-    background-color: #aaa;
-}
-.group > li:last-child{
-    border-bottom-style: solid;
-}
-div.buttons
-{
-    float: right;
+    background-color: white;
+    transition: .3s;
 }
 
 .completed
 {
     background-color: green;
-}
-.neutral
-{
-    background-color: white;
+    transition: .9s;
 }

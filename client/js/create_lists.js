@@ -11,18 +11,18 @@ var priv;
 function addList() {
     listName = document.getElementById('listName').value;
 
-    if(listName == ""){
+    if (listName == "") {
         alert("There was no value");
-    }else{
+    } else {
         createList(listName);
     }
 };
 
 function addTask(value) {
 
-    if(value == ""){
+    if (value == "") {
         alert("There was no value");
-    }else{
+    } else {
         createTask(value);
     }
 };
@@ -36,6 +36,8 @@ function createTask(value) {
 
     //TASKCONTAINER
     var task = document.createElement('li');
+    task.classList = "li_task neutral";
+
     var task_container = document.createElement('div');
     var task_toggle = document.createElement('input');
     var task_name = document.createElement('h1');
@@ -52,7 +54,7 @@ function createTask(value) {
 
     //ADDING ATTRIBUTES
     task_toggle.type = "checkbox";
-    task_toggle.classList = 'neutral';
+    task_toggle.classList = 'task_buttons';
 
     task_date.type = "date";
     task_name.innerHTML = value;
@@ -60,7 +62,7 @@ function createTask(value) {
 
     //APPENDING CHILDS
 
-            //task SELECT
+    //task SELECT
     task_select.appendChild(option_1);
     task_select.appendChild(option_2);
     task_select.appendChild(option_3);
@@ -86,27 +88,61 @@ function createList(listName) {
 
     priv = true;
     //removing the last list
-    if(listContainer.hasChildNodes()){
+    if (listContainer.hasChildNodes()) {
         listContainer.removeChild(listContainer.childNodes[0]);
     }
     //SIDEMENU
 
     var sidemenu_li = document.createElement('li');
     sidemenu_li.innerHTML = listName;
+    sidemenu_li.classList = "li_sidemenu";
+    sidemenu_li.id = listName + "sidemenu";
 
     //appendingChild
-
     sidemenu_private.appendChild(sidemenu_li);
+
+    //EVENT LISTENER FOR THE DIV --- RETRIEVES THE LIST
+    sidemenu_li.addEventListener('click', function(){
+        let list_Name = this.id;
+        console.log(list_Name);
+
+        let user_all_info = localStorage.getItem('logindata');
+        let user = JSON.parse(user_all_info);
+        let tok = user.token;
+        let userId = user.id;
+
+
+        var url = 'http://localhost:3000/lists/getlist?listname=' + list_Name + '&tok=' + tok + '&id=' + userId;
+
+        let cfg = {
+            method:'GET'
+        };
+
+        //superfetch(url, "json", succ, error, cfg);
+
+        function succ(data) {
+            console.log(data);
+        }
+
+        function error(err) {
+            console.log(err);
+        }
+
+    });
 
     //-----------------------------
     var ul = document.createElement('ul');
     ul.id = listName;
+    ul.classList = "group";
 
     var head = document.createElement('li');
-    head.innerHTML = listName;
     head.id = listName + "head";
+    head.classList = "li_head";
 
     //CREATING TASKBAR/HEADBAR AND ITS BUTTONS AND INPUT-FIELD--------------------------
+
+    var head_name = document.createElement('h1');
+    head_name.innerHTML = listName;
 
     var head_container = document.createElement('div');
 
@@ -120,11 +156,13 @@ function createList(listName) {
     //CLICK FUNCTION FOR CHECKBOX
     head_toggle_box.addEventListener('click', function(evt) {
 
-        if(head_toggle_box.checked){
+
+
+        if (head_toggle_box.checked) {
             priv = true;
             sidemenu_public.removeChild(sidemenu_li);
             sidemenu_private.appendChild(sidemenu_li);
-        }else{
+        } else {
             priv = false;
             sidemenu_private.removeChild(sidemenu_li);
             sidemenu_public.appendChild(sidemenu_li);
@@ -138,7 +176,7 @@ function createList(listName) {
     var head_button = document.createElement('button');
     head_button.innerHTML = 'NEW TASK';
     //CLICK FUNCTION FOR ADDING TASKS
-    head_button.addEventListener('click', function(){
+    head_button.addEventListener('click', function() {
 
         let value = document.getElementById(listName + "input").value;
 
@@ -148,7 +186,7 @@ function createList(listName) {
     var head_button_save = document.createElement('button');
     head_button_save.innerHTML = 'save';
 
-
+    head_container.appendChild(head_name);
     head_container.appendChild(head_input);
     head_container.appendChild(head_button);
     head_container.appendChild(head_toggle_box);
@@ -156,16 +194,15 @@ function createList(listName) {
     head.appendChild(head_container);
 
 
+    /*-----Appending li to ul-----*/
 
-/*-----Appending li to ul-----*/
-
-ul.appendChild(head);
-listContainer.appendChild(ul);
+    ul.appendChild(head);
+    listContainer.appendChild(ul);
 
 
-/*------sending to db------*/
+    /*------sending to db------*/
 
-    head_button_save.addEventListener('click', function(evt){
+    head_button_save.addEventListener('click', function(evt) {
 
         console.log('CLICKED SAVE BUTTON');
 
@@ -191,10 +228,11 @@ listContainer.appendChild(ul);
         superfetch(url, "json", succ, error, cfg);
 
         function succ(data) {
-
+            console.log(data);
         };
-        function error(err) {
 
+        function error(err) {
+            console.log(err);
         };
 
     });
