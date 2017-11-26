@@ -1,21 +1,21 @@
-
+var ul_usertable = document.getElementById('user_search_table');
 var user_search = document.getElementById('user_search').addEventListener('input', function(){
 
-    var name = this.value;
+    let name = this.value;
+    let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-    var url = 'http://localhost:3000/users/search?user=' + name;
+    var url = 'http://localhost:3000/search/?user=' + name + '&token=' + token;
 
     var cfg = {
         method: 'GET'
     }
 
-    superfetch(url, "json", succ, error, cfg);
+    superfetch(url, "json", user_search_succ, user_search_error, cfg);
 
 });
 
-function succ(data) {
+function user_search_succ(data) {
 
-    var ul_usertable = document.getElementById('user_search_table');
     while (ul_usertable.firstChild) {
         ul_usertable.removeChild(ul_usertable.firstChild);
     }
@@ -29,9 +29,7 @@ function succ(data) {
 
 }
 
-function error(err) {
-
-    var ul_usertable = document.getElementById('user_search_table');
+function user_search_error(err) {
 
     while (ul_usertable.firstChild) {
         ul_usertable.removeChild(ul_usertable.firstChild);

@@ -1,15 +1,10 @@
-//GLOBAL VARIABLES
-var listName;
-var listContainer = document.getElementById('listContainer');
-var sidemenu_public = document.getElementById('public');
-var sidemenu_private = document.getElementById('private');
-var priv;
-
 
 //CHECK IF THERE IS ANY VALUE FUNCTIONS
 
 function addList() {
+
     listName = document.getElementById('listName').value;
+    console.log(listName);
 
     if (listName == "") {
         alert("There was no value");
@@ -18,71 +13,46 @@ function addList() {
     }
 };
 
-function addTask(value) {
-
-    if (value == "") {
-        alert("There was no value");
-    } else {
-        createTask(value);
-    }
-};
-
 
 //CREATING FUNCTIONS
 
-function createTask(value) {
+function createList(listName){
+    priv = true;
 
-    var taskContainer = document.getElementById(listName);
+    var userId = JSON.parse(localStorage.getItem('logindata')).id
+    var token = JSON.parse(localStorage.getItem('logindata')).token
+    var description = "";
 
-    //TASKCONTAINER
-    var task = document.createElement('li');
-    task.classList = "li_task neutral";
-
-    var task_container = document.createElement('div');
-    var task_toggle = document.createElement('input');
-    var task_name = document.createElement('h1');
-    var task_date = document.createElement('input');
-    var task_select = document.createElement('select');
-
-    //OPTIONS
-    var option_1 = document.createElement('option');
-    option_1.innerHTML = "high";
-    var option_2 = document.createElement('option');
-    option_2.innerHTML = "medium";
-    var option_3 = document.createElement('option');
-    option_3.innerHTML = "low";
-
-    //ADDING ATTRIBUTES
-    task_toggle.type = "checkbox";
-    task_toggle.classList = 'task_buttons';
-
-    task_date.type = "date";
-    task_name.innerHTML = value;
-    task_select.options
-
-    //APPENDING CHILDS
-
-    //task SELECT
-    task_select.appendChild(option_1);
-    task_select.appendChild(option_2);
-    task_select.appendChild(option_3);
-
-    task_container.appendChild(task_name);
-    task_container.appendChild(task_toggle);
-    task_container.appendChild(task_date);
-    task_container.appendChild(task_select);
-    task.appendChild(task_container);
-
-
-    taskContainer.insertBefore(task, taskContainer.childNodes[1]);
-
-
-    //CLICK FUNCTION FOR LI; CHECKED OF UNCHECKED
-    task_toggle.addEventListener('click', function(evt) {
-        let item = task_toggle.parentNode.parentNode;
-        item.classList.toggle('completed');
+    var upload = JSON.stringify({
+        list_name: listName,
+        private: priv,
+        user_id: userId,
+        desc: description
     });
+
+    console.log(upload);
+
+    var cfg = {
+        method: "POST",
+        body: upload
+    };
+
+    var url = "http://localhost:3000/lists/?token=" + token;
+
+    superfetch(url, "json", create_list_succ, create_list_error, cfg);
+
 }
+
+function create_list_succ(data) {
+    console.log(data);
+    getLists();
+};
+
+function create_list_error(err) {
+    console.log(err);
+};
+
+/*
 
 function createList(listName) {
 
@@ -104,7 +74,7 @@ function createList(listName) {
     //EVENT LISTENER FOR THE DIV --- RETRIEVES THE LIST
     sidemenu_li.addEventListener('click', function(){
         let list_Name = this.id;
-        console.log(list_Name);
+        listName = list_Name.replace("sidemenu", "");
 
         let user_all_info = localStorage.getItem('logindata');
         let user = JSON.parse(user_all_info);
@@ -118,13 +88,13 @@ function createList(listName) {
             method:'GET'
         };
 
-        //superfetch(url, "json", succ, error, cfg);
+        superfetch(url, "json", get_list_succ, get_list_error, cfg);
 
-        function succ(data) {
+        function get_list_succ(data) {
             console.log(data);
         }
 
-        function error(err) {
+        function get_list_error(err) {
             console.log(err);
         }
 
@@ -156,19 +126,28 @@ function createList(listName) {
     //CLICK FUNCTION FOR CHECKBOX
     head_toggle_box.addEventListener('click', function(evt) {
 
-
-
         if (head_toggle_box.checked) {
             priv = true;
             sidemenu_public.removeChild(sidemenu_li);
             sidemenu_private.appendChild(sidemenu_li);
+
+            changePrivacy(priv);
         } else {
             priv = false;
             sidemenu_private.removeChild(sidemenu_li);
             sidemenu_public.appendChild(sidemenu_li);
+
+            changePrivacy(priv);
+        }
+
+        function changePrivacy(privacy){
+
+            console.log(listName);
+
+            var url = "http://localhost:3000/lists/priv?privacy=" + privacy + '&token' + token + '&list_name';
+
         }
     });
-
 
 
     //------------------------------
@@ -176,169 +155,65 @@ function createList(listName) {
     var head_button = document.createElement('button');
     head_button.innerHTML = 'NEW TASK';
     //CLICK FUNCTION FOR ADDING TASKS
-    head_button.addEventListener('click', function() {
+    head_button.addEventListener('click', function(e) {
 
         let value = document.getElementById(listName + "input").value;
 
         addTask(value);
     });
 
-    var head_button_save = document.createElement('button');
-    head_button_save.innerHTML = 'save';
+    var head_button_delete = document.createElement('button');
+    head_button_delete.innerHTML = 'delete';
+
+    head_button_delete.addEventListener('click', function(e) {
+        console.log(this.id);
+    });
+
+
 
     head_container.appendChild(head_name);
     head_container.appendChild(head_input);
     head_container.appendChild(head_button);
     head_container.appendChild(head_toggle_box);
-    head_container.appendChild(head_button_save);
+    head_container.appendChild(head_button_delete);
     head.appendChild(head_container);
 
 
-    /*-----Appending li to ul-----*/
+    -----Appending li to ul-----
 
     ul.appendChild(head);
     listContainer.appendChild(ul);
 
 
-    /*------sending to db------*/
+    ------sending to db------
 
-    head_button_save.addEventListener('click', function(evt) {
-
-        console.log('CLICKED SAVE BUTTON');
-
-        var list = this.parentNode.parentNode.parentNode.id;
-        var user_all_info = localStorage.getItem('logindata');
-        var user = JSON.parse(user_all_info);
-
-        //var token = user.token;
+        var userId = JSON.parse(localStorage.getItem('logindata')).id
+        var token = JSON.parse(localStorage.getItem('logindata')).token
 
         var upload = JSON.stringify({
-            list_name: list,
+            list_name: listName,
             private: priv,
-            user_id: user.id
+            user_id: userId
         });
+
+        console.log(upload);
 
         var cfg = {
             method: "POST",
             body: upload
         };
 
-        var url = "http://localhost:3000/boards/newlist";
+        var url = "http://localhost:3000/lists/?token=" + token;
 
-        superfetch(url, "json", succ, error, cfg);
+        superfetch(url, "json", create_list_succ, create_list_error, cfg);
 
-        function succ(data) {
+        function create_list_succ(data) {
             console.log(data);
         };
 
-        function error(err) {
+        function create_list_error(err) {
             console.log(err);
         };
-
-    });
-
-}
-
-/*
-function createGroup(name, boolean){
-    var priv = boolean;
-
-    var groupContainer = document.getElementById('groupContainer');
-    var groupNameTxt = document.getElementById('groupNameTxt');
-    var privContainer = document.getElementById('private');
-    var shareContainer = document.getElementById('shareable');
-
-//-----*-----
-
-    var sLiDiv = document.createElement('div');
-    sLiDiv.id = name;
-
-    var sLi = document.createElement('li');
-    sLi.innerHTML = name;
-    sLi.id = name;
-
-    //----Sidemenu board onclick--retrieves the id of the board
-
-
-    sLi.addEventListener('click', function(e){
-
-        var token = localStorage()
-
-        let boardId = e.target.id;
-        var url = 'http://localhost:3000/users/getboard/?token=' + variabel + "&tull=" + boardId;
-
-        let upload = JSON.stringify({
-            board: boardId
-        });
-
-        let cfg = {
-            method: "POST",
-            body: upload
-        }
-
-        superfetch(url, "json", succ, error, cfg);
-
-        function succ(data) {
-
-        }
-        function error(err) {
-
-        }
-    });
-
-    sLi.appendChild(sLiDiv);
-
-    if (priv == true) {
-        privContainer.appendChild(sLi);
-    } else {
-        shareContainer.appendChild(sLi);
-    }
-//-----*-----
-    groupNameTxt.innerHTML = name + " board";
-
-    var ul = document.createElement('ul');
-    var groupLi = document.createElement('li');
-    var widgetLi = document.createElement('li');
-
-    //buttons and input for widgetLi
-
-    var newTask = document.createElement('li');
-    var div = document.createElement('div');
-
-    var input = document.createElement('input');
-    input.id = "input";
-
-    var button = document.createElement('button');
-
-    button.innerHTML = "new task";
-    button.id = name;
-
-    button.onclick = function() {
-        var value = document.getElementById('input').value;
-        if(value){
-            createTask(value, name);
-        }else{
-            console.log("There was NO value");
-        }
-    };
-
-    div.appendChild(input);
-    div.appendChild(button);
-    newTask.appendChild(div);
-
-    ul.classList.add('group');
-    ul.id = name + "task";
-
-    if(priv == false) {
-        groupLi.innerHTML = name + " - Shareable";
-    } else {
-        groupLi.innerHTML = name + " - Private";
-    }
-
-
-    ul.appendChild(groupLi);
-    ul.appendChild(newTask);
-    groupContainer.appendChild(ul);
 
 }
 

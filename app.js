@@ -18,6 +18,11 @@ app.use('/users', users);
 var lists = require('./lists');
 app.use('/lists', lists);
 
+//----SEARCHROUTE----//
+var search = require('./search');
+app.use('/search', search);
+
+
 
 //-------------------------//
 app.get('/', function(req, res) {

@@ -5,13 +5,12 @@ const bodyParser = require('body-parser').text();
 const jwt = require('jsonwebtoken');
 
 var secret = "greatmindcomesgreatresponsibilty";
+var logindata;
 
 
 router.use(function (req, res, next) {
 
     var token = req.query['token'];
-
-    console.log('token' + token);
 
     if (!token) {
         res.status(403).json({msg: "No token received"}); //send
@@ -30,22 +29,86 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.post('/newlist', bodyParser, function(req, res) {
+//GET REQUESTS----------------------
+
+router.get('/', function(req, res) {
+
+    var upload = req.query.user_id;
+
+    var sql = `PREPARE get_lists(int) AS
+            SELECT * FROM lists WHERE user_id=$1;
+            EXECUTE get_lists('${upload}')`;
+
+    db.any(sql).then(function(data) {
+
+        db.any("DEALLOCATE get_lists");
+
+    if (data.length <= 0) {
+        res.status(403).json({msg: "couldnt find any lists"}); //send
+        return; //quit
+    } else {
+
+    console.log(data);
+    res.status(200).json(data);
+
+    }
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+
+    });
+});
+
+
+router.get('/single', function(req, res) {
+
+    var user_id = req.query.user_id;
+    var list_name = req.query.list_name;
+
+    var sql = `PREPARE get_list(text, int) AS
+            SELECT * FROM lists WHERE list_name=$1 AND user_id=$2;
+            EXECUTE get_list('${list_name}', '${user_id}')`;
+
+    db.any(sql).then(function(data) {
+
+        db.any("DEALLOCATE get_list");
+
+    if (data.length <= 0) {
+        res.status(403).json({msg: "couldnt get the list"}); //send
+        return; //quit
+    } else {
+
+    console.log(data);
+    res.status(200).json(data);
+
+    }
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+
+    });
+});
+
+//POST REQUESTS----------------------
+
+router.post('/', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
     console.log('upload' + upload);
 
-    var sql = `PREPARE insert_list (int, text, boolean, int) AS
-            INSERT INTO list VALUES(DEFAULT, $2, $3, $4);
-            EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}')`;
+    var sql = `PREPARE insert_list (int, text, boolean, int, text) AS
+            INSERT INTO lists VALUES(DEFAULT, $2, $3, $4, $5);
+            EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}', '${upload.desc}')`;
 
     console.log(sql);
 
     db.any(sql).then(function(data) {
 
-        res.status(200).json(data);
-        console.log(data);
+        db.any('DEALLOCATE insert_list');
+        res.status(200).json({msg: "list insert ok"});
 
     }).catch(function(err) {
 
@@ -53,11 +116,46 @@ router.post('/newlist', bodyParser, function(req, res) {
     });
 });
 
-router.get('/getlist', function(req, res) {
+router.post('/priv', bodyParser, function(req, res) {
 
-    var upload = req.query.user;
+    var upload = JSON.parse(req.body);
+    var privacy = req.query.privacy;
+
+    var sql = `PREPARE update_privacy(boolean, int, int) AS
+            UPDATE lists SET private=$1 WHERE id=$2 AND user_id=$3;
+            EXECUTE update_privacy('${privacy}', '${upload.list_id}', '${upload.user_id}') `;
+
+
+    db.any(sql).then(function(data) {
+
+        db.any('DEALLOCATE update_privacy');
+        res.status(200).json({msg: "list insert ok"});
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
+
 });
 
+router.post('/desc', bodyParser, function(req, res) {
+
+    var upload = JSON.parse(req.body);
+
+    var sql = `PREPARE update_desc(text, int, int) AS
+            UPDATE lists SET description=$1 WHERE id=$2 AND user_id=$3;
+            EXECUTE update_desc('${upload.description}', '${upload.list_id}', '${upload.user_id}')`;
+
+            db.any(sql).then(function(data) {
+
+                db.any('DEALLOCATE update_desc');
+                res.status(200).json({msg: "description update - OK"});
+
+            }).catch(function(err) {
+
+                res.status(500).json({err});
+            });
+});
 
 
 module.exports = router;

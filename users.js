@@ -8,11 +8,8 @@ var db = require('./dbconnect');
 var secret = "greatmindcomesgreatresponsibilty"; //used to create the token
 
 // REGISTER
-router.get('/', function(req, res) {
-    res.send('you are at /users');
-});
 
-router.get('/search', bodyParser, function (req, res) {
+router.get('/search', function (req, res) {
 
     var upload = req.query.user;
 
