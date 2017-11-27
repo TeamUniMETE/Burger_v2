@@ -10,10 +10,12 @@ function superfetch(url, type, success, fail, settings) {
         status = response.status;
 
         if (type == "text") {
+
             return response.text();
         }
 
         if (type == "json") {
+
             return response.json();
         }
     }
@@ -22,9 +24,11 @@ function superfetch(url, type, success, fail, settings) {
     function dataSucc(data) {
 
         if (status != 200 && fail != undefined) {
+
             fail(data);
         }
         else {
+
             success(data);
         }
     }
@@ -35,6 +39,8 @@ function superfetch(url, type, success, fail, settings) {
         if (fail != undefined) {
 
             fail(error);
+        } else {
+
         }
 
     }

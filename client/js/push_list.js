@@ -1,29 +1,35 @@
 
-//CHECK IF THERE IS ANY VALUE FUNCTIONS
+//CHECK IF THERE IS ANY VALUE -- FUNCTION
 
 function addList() {
 
     listName = document.getElementById('listName').value;
-    console.log(listName);
+    var check = document.getElementById(listName + 'sidemenu');
 
-    if (listName == "") {
-        alert("There was no value");
+    if (listName == "" || check) {
+        alert("There was no value OR the board already exists");
     } else {
-        createList(listName);
+
+        while(sidemenu_public.childNodes[2]){
+            sidemenu_public.removeChild(sidemenu_public.childNodes[2]);
+        }
+
+        while(sidemenu_private.childNodes[2]){
+            sidemenu_private.removeChild(sidemenu_private.childNodes[2]);
+        }
+        push_list_to_db(listName);
     }
 };
 
 
-//CREATING FUNCTIONS
-
-function createList(listName){
+function push_list_to_db(listName){
     priv = true;
 
-    var userId = JSON.parse(localStorage.getItem('logindata')).id
-    var token = JSON.parse(localStorage.getItem('logindata')).token
-    var description = "";
+    let userId = JSON.parse(localStorage.getItem('logindata')).id
+    let token = JSON.parse(localStorage.getItem('logindata')).token
+    let description = "";
 
-    var upload = JSON.stringify({
+    let upload = JSON.stringify({
         list_name: listName,
         private: priv,
         user_id: userId,
@@ -32,12 +38,12 @@ function createList(listName){
 
     console.log(upload);
 
-    var cfg = {
+    let cfg = {
         method: "POST",
         body: upload
     };
 
-    var url = "http://localhost:3000/lists/?token=" + token;
+    let url = "http://localhost:3000/lists/?token=" + token;
 
     superfetch(url, "json", create_list_succ, create_list_error, cfg);
 

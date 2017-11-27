@@ -22,6 +22,10 @@ app.use('/lists', lists);
 var search = require('./search');
 app.use('/search', search);
 
+//----TASKROUTE-----//
+var tasks = require('./tasks');
+app.use('/tasks', tasks);
+
 
 
 //-------------------------//

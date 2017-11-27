@@ -104,7 +104,13 @@ router.post('/auth/', bodyParser, function (req, res) {
         var tok = jwt.sign(payload, secret, {expiresIn: "12h"});
 
         //send logininfo + token to the client
-        res.status(200).json({id: data[0].id, loginname: data[0].loginname, fullname: data[0].fullname, token: tok});
+        res.status(200).json({
+            id: data[0].id,
+            loginname: data[0].loginname,
+            fullname: data[0].fullname,
+            token: tok
+        });
+
     }).catch(function(err) {
 
         res.status(500).json({err});

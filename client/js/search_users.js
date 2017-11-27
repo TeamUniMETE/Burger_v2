@@ -1,4 +1,11 @@
+
+//RESULT CONTAINER --
 var ul_usertable = document.getElementById('user_search_table');
+
+//SEARCH FOR EXISTING USERS ON THE DATABASE...
+
+//----an event listener that const do a request. More userfriendly.
+
 var user_search = document.getElementById('user_search').addEventListener('input', function(){
 
     let name = this.value;
