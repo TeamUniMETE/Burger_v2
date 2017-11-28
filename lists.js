@@ -64,11 +64,11 @@ router.get('/', function(req, res) {
 router.get('/single', function(req, res) {
 
     var user_id = req.query.user_id;
-    var list_name = req.query.list_name;
+    var list_id = req.query.list_id;
 
-    var sql = `PREPARE get_list(text, int) AS
-            SELECT * FROM lists WHERE list_name=$1 AND user_id=$2;
-            EXECUTE get_list('${list_name}', '${user_id}')`;
+    var sql = `PREPARE get_list(int, int) AS
+            SELECT * FROM lists WHERE id=$1 AND user_id=$2;
+            EXECUTE get_list('${list_id}', '${user_id}')`;
 
     db.any(sql).then(function(data) {
 
@@ -90,6 +90,25 @@ router.get('/single', function(req, res) {
 
     });
 });
+//DELETE REQUEST---------------------
+router.delete('/list', function(req, res) {
+
+    var listid = req.query.listid;
+
+    var sql = `PREPARE delete_list (int) AS
+            DELETE FROM lists WHERE id=$1;
+            EXECUTE delete_list('${listid}')`;
+
+    db.any(sql).then(function(data) {
+
+        db.any('DEALLOCATE delete_list');
+        res.status(200).json({msg: "list deletion - ok"});
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
+})
 
 //POST REQUESTS----------------------
 

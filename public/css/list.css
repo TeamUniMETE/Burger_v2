@@ -7,3 +7,21 @@
     background-color: rgba(196, 0, 214, 0.72);
     transition: .9s;
 }
+
+.high
+{
+    background-color: red;
+    transition: .9s;
+}
+
+.medium
+{
+    background-color: white;
+    transition: .9s;
+}
+
+.low
+{
+    background-color: blue;
+    transition: .9s;
+}

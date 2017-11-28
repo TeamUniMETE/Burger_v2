@@ -24,9 +24,11 @@ function addTask(value) {
 function push_task_to_db(value) {
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
-    let today = new Date().toDateString();
+    let today = new Date().toISOString();
     let isCompleted = false;
     let defaultPriority = "low";
+
+    console.log(today);
 
     let upload = JSON.stringify({
         task_name: value,

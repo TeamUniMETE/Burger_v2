@@ -54,13 +54,35 @@ router.post('/', bodyParser, function(req, res) {
     });
 
 });
+//DELETE REQUESTS--------------------
+router.delete('/task', function(req, res) {
+
+    var taskid = req.query.taskid;
+    var listid = req.query.listid;
+
+    var sql = `PREPARE delete_task(int, int) AS
+            DELETE FROM tasks WHERE id=$1 AND list_id=$2 RETURNING *;
+            EXECUTE delete_task('${taskid}', '${listid}')`;
+
+
+    db.any(sql).then(function(data) {
+
+        db.any('DEALLOCATE delete_task');
+
+        res.status(200).json({msg: 'delete task - ok'});
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
+});
 
 //POST REQUESTS----------------------
 router.post('/add', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
-    var sql = `PREPARE insert_task (int, text, text, text, boolean, int) AS
+    var sql = `PREPARE insert_task (int, text, date, text, boolean, int) AS
             INSERT INTO tasks VALUES(DEFAULT, $2, $3, $4, $5, $6);
             EXECUTE insert_task(0, '${upload.task_name}', '${upload.deadline_date}', '${upload.priority}', '${upload.completed}', '${upload.list_id}')`;
 

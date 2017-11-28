@@ -37,14 +37,35 @@ function get_tasks_succ(data) {
         let task_container_widget = document.createElement('div');
         task_container_widget.classList = 'task_widget'
 
+        let task_container_colorcode = document.createElement('div');
+
         let task_toggle = document.createElement('input');
         let task_name = document.createElement('p');
         let task_date = document.createElement('input');
+        let task_delete = document.createElement('button');
+        task_delete.innerHTML = 'Delete';
+
+        task_delete.addEventListener('click', function() {
+
+            remove_task(task.id, selected_listId);
+
+            task.parentNode.removeChild(task);
+        });
 
         let task_select = document.createElement('select');
         task_select.addEventListener('input', function(e) {
 
             changePriority(this.value, this.parentNode.parentNode.id);
+            if(task_select.value == "high") {
+                task_container_colorcode.classList.remove('medium', 'low');
+                task_container_colorcode.classList.add('high');
+            }else if(task_select.value == "medium") {
+                task_container_colorcode.classList.remove('high','low');
+                task_container_colorcode.classList.add('medium');
+            }else if(task_select.value == "low") {
+                task_container_colorcode.classList.remove('medium', "high");
+                task_container_colorcode.classList.add('low');
+            }
         });
 
         //OPTIONS FOR THE SELECT LIST
@@ -65,7 +86,6 @@ function get_tasks_succ(data) {
         task_toggle.classList = 'task_buttons';
         task_toggle.checked = data[i].completed;
 
-
         task_date.type = "date";
         task_date.value = data[i].deadline_date;
         task_name.innerHTML = data[i].task_name;
@@ -80,12 +100,28 @@ function get_tasks_succ(data) {
 
         task_select.value = data[i].priority;//SET THE PRIORITY
 
+        //COLOR_LIST_STATEMENTS
+
+        if(task_select.value == "high") {
+            task_container_colorcode.classList.remove('medium', 'low');
+            task_container_colorcode.classList.add('high');
+        }else if(task_select.value == "medium") {
+            task_container_colorcode.classList.remove('high','low');
+            task_container_colorcode.classList.add('medium');
+        }else if(task_select.value == "low") {
+            task_container_colorcode.classList.remove('medium', "high");
+            task_container_colorcode.classList.add('low');
+        }
+
+
         task_container_text.appendChild(task_toggle);
         task_container_text.appendChild(task_name);
         task_container_widget.appendChild(task_date);
         task_container_widget.appendChild(task_select);
+        task_container_widget.appendChild(task_delete);
         task.appendChild(task_container_text);
         task.appendChild(task_container_widget);
+        task.appendChild(task_container_colorcode);
 
         var item = task_toggle.parentNode.parentNode;
 
@@ -191,7 +227,6 @@ function changeCompleted(value, taskId) {
         task_id: taskId
     });
 
-    console.log(upload);
 
     let cfg = {
         method: "POST",
@@ -207,7 +242,7 @@ function changeCompleted(value, taskId) {
 }
 
 function change_completed_succ(data) {
-    //console.log(data);
+    console.log(data);
 };
 
 function change_completed_error(err) {

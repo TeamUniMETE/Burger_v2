@@ -35,13 +35,12 @@ function get_all_lists_succ(data) {
 
 
     for(let i = 0; i < data.length; i++){
-
         //CREATE SIDEMENU LI
 
         var sidemenu_li = document.createElement('li');
         sidemenu_li.innerHTML = data[i].list_name;
         sidemenu_li.classList = "li_sidemenu";
-        sidemenu_li.id = data[i].list_name + "sidemenu";
+        sidemenu_li.id = data[i].id + "sidemenu";
 
         //appendingChild if statement
         if(data[i].private){
@@ -55,13 +54,15 @@ function get_all_lists_succ(data) {
         sidemenu_li.addEventListener('click', function(){
 
             let id = this.id;
-            listName = id.replace("sidemenu", "");
+            let s_id = id.replace("sidemenu", "");
+            listName = this.innerHTML;
+
 
             var user = JSON.parse(localStorage.getItem('logindata'));
             var token = user.token;
             var user_id = user.id;
 
-            var url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_name=' + listName;
+            var url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
             //var url = 'https://burgerapplication.herokuapp.com/lists/single?user_id=' + user_id + '&token=' + token + '&list_name=' + listName;
 
             let cfg = {
@@ -136,9 +137,7 @@ function get_single_list_succ(data) {
         let s_id = this.id
         let list_name = s_id.replace("textbox", "");
         let listId = res_data.id;
-
         let desc = textarea.value;
-
         let sLI = document.getElementById(list_name + 'sidemenu');
 
         changeDescription(desc, listId);
@@ -192,7 +191,7 @@ function get_single_list_succ(data) {
 
         let listId = res_data.id;
 
-        let sLI = document.getElementById(list_name + 'sidemenu');
+        let sLI = document.getElementById(listId + 'sidemenu');
 
         if (this.checked) {
 
@@ -241,7 +240,47 @@ function get_single_list_succ(data) {
 
     //DELETING LIST
     head_button_delete.addEventListener('click', function(evt){
-        let list = this.parentNode.parentNode.parentNode.id;
+        let item = this.parentNode.parentNode;
+
+        //UNCOMPLETED LIST
+        var parent_uncompleted_list = item.parentNode;
+        var parent_uncompleted_children_count = parent_uncompleted_list.childElementCount;
+
+        for(var i = 1; i < parent_uncompleted_children_count; i++) {
+
+            let u_itemid = parent_uncompleted_list.childNodes[1].id;
+            remove_task(u_itemid, selected_listId);
+            parent_uncompleted_list.removeChild(parent_uncompleted_list.childNodes[1]);
+        }
+
+
+        //COMPLETED LIST
+        var parent_completed_list = item.parentNode.parentNode.childNodes[1];
+        var parent_completed_children_count = parent_completed_list.childElementCount;
+
+        for(var j = 1; j < parent_completed_children_count; j++) {
+
+            let c_itemid = parent_completed_list.childNodes[1].id;
+            remove_task(c_itemid, selected_listId);
+            parent_completed_list.removeChild(parent_completed_list.childNodes[1]);
+
+        }
+
+        remove_list(selected_listId);
+
+        //removing ul and stuff
+        while(listContainer.hasChildNodes()){
+            listContainer.removeChild(listContainer.childNodes[0]);
+        }
+
+        if(document.getElementById(selected_listId + 'sidemenu')) {
+            var sidemenu_remove = document.getElementById(selected_listId + 'sidemenu');
+            if (sidemenu_remove.parentNode == sidemenu_public) {
+                sidemenu_public.removeChild(sidemenu_remove);
+            }else if (sidemenu_remove.parentNode == sidemenu_private) {
+                sidemenu_private.removeChild(sidemenu_remove);
+            }
+        }
 
     });
 
