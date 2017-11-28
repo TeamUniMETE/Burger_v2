@@ -5,10 +5,12 @@ var listContainer = document.getElementById('listContainer');
 var sidemenu_public = document.getElementById('public');
 var sidemenu_private = document.getElementById('private');
 var description_area = document.getElementById('description_area');
-
 var priv;
 
+
+
 window.onload = getLists; //runs after logging in
+
 
 function getLists() {
 
@@ -73,138 +75,200 @@ function get_all_lists_succ(data) {
 
     }
 
-    function get_single_list_succ(data) {
+};
+//---get_SINGLE_list_succ----//
+function get_single_list_succ(data) {
 
-        var res_data = data[0];
-        selected_listId = res_data.id;
 
-        if(description_area.hasChildNodes()){
-            description_area.removeChild(description_area.childNodes[0]);
+    var res_data = data[0];
+    selected_listId = res_data.id;
+
+    if(description_area.hasChildNodes()){
+        description_area.removeChild(description_area.childNodes[0]);
+    }
+
+    while (listContainer.hasChildNodes()) {
+        listContainer.removeChild(listContainer.childNodes[0]);
+    }
+
+    //CREATING A -UNCOMPLETED- UL THAT HOUSES THE TASKS
+    var ul_uncompleted = document.createElement('ul');
+    ul_uncompleted.id = res_data.list_name + 'uncompleted';
+    ul_uncompleted.classList = "group";
+
+    //CREATING A -COMPLETED- UL THAT HOUSES THE TASKS-------------
+
+    var ul_completed = document.createElement('ul');
+    ul_completed.id = res_data.list_name + 'completed';
+    ul_completed.classList = "group";
+
+    var li_completed = document.createElement('li');
+    li_completed.id = res_data.list_name + 'completed_li';
+
+    var completed_container = document.createElement('div');
+    li_completed.classList = 'li_completed';
+
+    var li_completed_name = document.createElement('p');
+    li_completed_name.id = res_data.list_name + 'name';
+    li_completed_name.innerHTML = 'No completed tasks';
+
+
+
+    //APPENDING TO COMPLETED
+
+    completed_container.appendChild(li_completed_name);
+    li_completed.appendChild(completed_container);
+    ul_completed.appendChild(li_completed);
+
+    //----------------------------------------------------------
+
+    var textarea = document.createElement('textarea');
+    textarea.id = res_data.list_name + 'textbox';
+    textarea.classList = 'textbox';
+    textarea.value = res_data.description;
+
+    if(textarea.value == "") {
+        textarea.value = 'Add a description...';
+    }
+
+    textarea.addEventListener('input', function(){
+
+        let s_id = this.id
+        let list_name = s_id.replace("textbox", "");
+        let listId = res_data.id;
+
+        let desc = textarea.value;
+
+        let sLI = document.getElementById(list_name + 'sidemenu');
+
+        changeDescription(desc, listId);
+
+    });
+
+
+    //CREATING A TASKBAR
+    var head = document.createElement('li');
+    head.id = res_data.list_name + "head";
+    head.classList = "list_head";
+
+    //CREATING TASKBAR/HEADBAR AND ITS BUTTONS AND INPUT-FIELD--------------------------
+
+    var head_name = document.createElement('p');
+    head_name.innerHTML = res_data.list_name;
+
+    var head_container_text = document.createElement('div');
+    head_container_text.classList = 'head_text';
+
+    var head_container = document.createElement('div');
+    head_container.classList = 'head_widget';
+
+    var head_input = document.createElement('input');
+    head_input.id = res_data.list_name + "input";
+
+    var head_toggle_box = document.createElement('input');
+    head_toggle_box.type = "checkbox";
+    head_toggle_box.id = res_data.list_name + 'privacy_box'
+    head_toggle_box.checked = res_data.private;
+
+    if(head_toggle_box.checked){
+        console.log(true);
+        ul_uncompleted.classList.add('private_list');
+        ul_uncompleted.classList.remove('public_list');
+        ul_completed.classList.add('private_list');
+        ul_completed.classList.remove('public_list');
+    } else {
+        console.log(false);
+        ul_uncompleted.classList.add('public_list');
+        ul_uncompleted.classList.remove('private_list');
+        ul_completed.classList.add('public_list');
+        ul_completed.classList.remove('private_list');
+    }
+
+    //CLICK FUNCTION FOR CHECKBOX
+    head_toggle_box.addEventListener('click', function(evt) {
+        let parent = this.parentNode.parentNode.parentNode;
+        let s_id = this.id
+        let list_name= s_id.replace("privacy_box", "");
+
+        let listId = res_data.id;
+
+        let sLI = document.getElementById(list_name + 'sidemenu');
+
+        if (this.checked) {
+
+            priv = true;
+            sidemenu_public.removeChild(sLI);
+            sidemenu_private.appendChild(sLI);
+            ul_uncompleted.classList.add('private_list');
+            ul_uncompleted.classList.remove('public_list');
+            ul_completed.classList.add('private_list');
+            ul_completed.classList.remove('public_list');
+
+            changePrivacy(priv, list_name, listId);
+        } else {
+            priv = false;
+            sidemenu_private.removeChild(sLI);
+            sidemenu_public.appendChild(sLI);
+
+            changePrivacy(priv, list_name, listId);
+            ul_uncompleted.classList.add('public_list');
+            ul_uncompleted.classList.remove('private_list');
+            ul_completed.classList.add('public_list');
+            ul_completed.classList.remove('private_list');
         }
 
-        if (listContainer.hasChildNodes()) {
-            listContainer.removeChild(listContainer.childNodes[0]);
-        }
 
-        var ul = document.createElement('ul');
-        ul.id = res_data.list_name;
-        ul.classList = "group";
-
-        var textarea = document.createElement('textarea');
-        textarea.id = res_data.list_name + 'textbox';
-        textarea.value = res_data.description;
-
-        textarea.addEventListener('input', function(){
-
-            let s_id = this.id
-            let list_name = s_id.replace("textbox", "");
-            let listId = res_data.id;
-
-            let desc = textarea.value;
-
-            let sLI = document.getElementById(list_name + 'sidemenu');
-
-            changeDescription(desc, listId);
-
-        });
-
-        description_area.appendChild(textarea);
-
-        var head = document.createElement('li');
-        head.id = res_data.list_name + "head";
-        head.classList = "li_head";
-
-        //CREATING TASKBAR/HEADBAR AND ITS BUTTONS AND INPUT-FIELD--------------------------
-
-        var head_name = document.createElement('h1');
-        head_name.innerHTML = res_data.list_name;
-
-        var head_container = document.createElement('div');
-
-        var head_input = document.createElement('input');
-        head_input.id = res_data.list_name + "input";
-
-        var head_toggle_box = document.createElement('input');
-        head_toggle_box.type = "checkbox";
-        head_toggle_box.id = res_data.list_name + 'privacy_box'
-        head_toggle_box.checked = res_data.private;
-
-        //CLICK FUNCTION FOR CHECKBOX
-        head_toggle_box.addEventListener('click', function(evt) {
-
-            let s_id = this.id
-            let list_name= s_id.replace("privacy_box", "");
-
-            let listId = res_data.id;
-
-            let sLI = document.getElementById(list_name + 'sidemenu');
-
-            if (this.checked) {
-
-                priv = true;
-                sidemenu_public.removeChild(sLI);
-                sidemenu_private.appendChild(sLI);
-
-                changePrivacy(priv, list_name, listId);
-            } else {
-                priv = false;
-                sidemenu_private.removeChild(sLI);
-                sidemenu_public.appendChild(sLI);
-
-                changePrivacy(priv, list_name, listId);
-            }
+    });
 
 
-        });
+    //------------------------------
+
+    var head_button = document.createElement('button');
+    head_button.innerHTML = 'add';
+    //CLICK FUNCTION FOR ADDING TASKS
+    head_button.addEventListener('click', function() {
+
+        let value = document.getElementById(res_data.list_name + "input").value;
+        let listId = res_data.id;
+
+        var taskContainer = document.getElementById(listName);
+
+        addTask(value, listId);
+    });
+
+    var head_button_delete = document.createElement('button');
+    head_button_delete.innerHTML = 'delete';
+
+    //DELETING LIST
+    head_button_delete.addEventListener('click', function(evt){
+        let list = this.parentNode.parentNode.parentNode.id;
+
+    });
+
+    head_container_text.appendChild(head_name);
+    head_container_text.appendChild(textarea);
+    head_container.appendChild(head_input);
+    head_container.appendChild(head_button);
+    head_container.appendChild(head_toggle_box);
+    head_container.appendChild(head_button_delete);
+
+    head.append(head_container_text);
+    head.appendChild(head_container);
 
 
-        //------------------------------
+    /*-----Appending li to ul-----*/
 
-        var head_button = document.createElement('button');
-        head_button.innerHTML = 'NEW TASK';
-        //CLICK FUNCTION FOR ADDING TASKS
-        head_button.addEventListener('click', function() {
+    ul_uncompleted.appendChild(head);
+    listContainer.appendChild(ul_uncompleted);
+    listContainer.appendChild(ul_completed);
 
-            let value = document.getElementById(res_data.list_name + "input").value;
-            let listId = res_data.id;
+    getTasks();
 
-            var taskContainer = document.getElementById(listName);
-
-            addTask(value, listId);
-        });
-
-        var head_button_delete = document.createElement('button');
-        head_button_delete.innerHTML = 'delete';
-
-        //DELETING LIST
-        head_button_delete.addEventListener('click', function(evt){
-            let list = this.parentNode.parentNode.parentNode.id;
-
-        });
-
-        head_container.appendChild(head_name);
-        head_container.appendChild(head_input);
-        head_container.appendChild(head_button);
-        head_container.appendChild(head_toggle_box);
-        head_container.appendChild(head_button_delete);
-        head.appendChild(head_container);
-
-
-        /*-----Appending li to ul-----*/
-
-        ul.appendChild(head);
-        listContainer.appendChild(ul);
-
-        getTasks();
-
-    };
-
-    function get_single_list_error(err) {
-        console.log(err);
-    };
 };
 
-//---get_SINGLE_list_succ----//
+function get_single_list_error(err) {
+    console.log(err);
+};
 
 
 function get_all_lists_error(err) {

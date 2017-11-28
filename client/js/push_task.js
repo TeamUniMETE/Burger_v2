@@ -2,10 +2,15 @@
 //CHECK IF THERE IS ANY VALUE -- FUNCTION
 
 function addTask(value) {
-    var taskContainer = document.getElementById(listName);
+    var taskContainer_uncompleted = document.getElementById(listName + 'uncompleted');
+    var taskContainer_completed = document.getElementById(listName + 'completed');
 
-    while(taskContainer.childNodes[1]) {
-        taskContainer.removeChild(taskContainer.childNodes[1]);
+    while(taskContainer_uncompleted.childNodes[1]) {
+        taskContainer_uncompleted.removeChild(taskContainer_uncompleted.childNodes[1]);
+    }
+
+    while(taskContainer_completed.childNodes[1]) {
+        taskContainer_completed.removeChild(taskContainer_completed.childNodes[1]);
     }
 
     if (value == "") {

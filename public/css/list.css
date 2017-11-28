@@ -1,13 +1,9 @@
 
 /*-----DONT CHANGE THE HIEARCHY-----*/
-.neutral
-{
-    background-color: white;
-    transition: .3s;
-}
+
 
 .completed
 {
-    background-color: green;
+    background-color: rgba(196, 0, 214, 0.72);
     transition: .9s;
 }

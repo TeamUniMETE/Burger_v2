@@ -6,6 +6,10 @@ body
     font-family: 'Questrial', sans-serif;
     height: 100%;
 }
+h1
+{
+    font-family: 'Questrial', sans-serif;
+}
 .container {
   display: grid;
   grid-template-columns: 300px 500px 500px 1fr;
@@ -72,25 +76,105 @@ body
             border-radius: 50px;
         }
 
+/*-----TEXTBOX-----*/
+.textbox
+{
+    width:400px;
+    font-family: 'Questrial', sans-serif;
+	height:60px;
+    margin-right: 1em;
+	background-color: transparent;
+	border:1px solid rgba(155, 200, 255, .8);
+    border-radius: 10px;
+    resize: none;
+}
 /*-----CONTENT-----*/
+li.list_head
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 200px;
+
+}
+.head_text > p
+{
+    font-size: 40px;
+    display: inline-block;
+    margin-right: 1em;
+}
+.li_completed
+{
+    text-align: center;
+    height: 2em;
+    margin-bottom: 1em;
+}
+.head_widget
+{
+    display: flex;
+    margin-bottom: 2em;
+}
+.head_widget > input
+{
+    height: 1.5em;
+    width: 300px;
+    border-radius: 10px;
+}
+.head_widget > button
+{
+    height: 2em;
+    width: 5em;
+    margin-left: 1em;
+    border-radius: 10px;
+}
+
+.tasks
+{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.task_text > p
+{
+    display: inline-block;
+    margin-left: 1em;
+    font-size: 15px;
+}
 
 .group
 {
     list-style-type: none;
-    background: rgba(255, 255, 255, 0.5);
     padding: 2em;
     margin-left: 4em;
     min-width: 400px;
     max-width: 800px;
 }
-li.li_head
+
+.group li:not(:first-child)
 {
-    text-align: center;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    height: 3em;
+    transition: 0.3s;
 }
-li.li_head div
+
+.group li:not(:first-child):hover
 {
-    margin:0px;
-    border-style:solid;
+    height: 3.5em;
+    transition: 0.3s;
+    background: rgba(155, 200, 255, .8);
+}
+
+.group li:nth-child(2):not(:last-child)
+{
+    border-style: solid solid none solid;
+}
+.group li:last-child
+{
+    border-style: solid solid solid solid;
+}
+.group li:first-child
+{
+    border-style: none;
 }
 
 /*-----SIDEMENU-----*/
@@ -134,5 +218,18 @@ li#board_category
 {
     background: rgba(255, 255, 255, 1);
     padding: 2em;
+    transition: 2s;
+}
+/*-----public/private_list-----*/
+
+.public_list
+{
+    background-color: rgba(0, 205, 209, .2);
+    transition: 2s;
+}
+
+.private_list
+{
+    background-color: rgba(210, 0, 188, .2);
     transition: 2s;
 }

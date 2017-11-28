@@ -20,7 +20,8 @@ function getTasks(){
 
 function get_tasks_succ(data) {
 
-    var taskContainer = document.getElementById(listName);
+    var taskContainer_uncompleted = document.getElementById(listName + 'uncompleted');
+    var taskContainer_completed = document.getElementById(listName + 'completed');
 
     for(var i = 0; i < data.length; i++) {
 
@@ -28,18 +29,22 @@ function get_tasks_succ(data) {
         //TASKCONTAINER
         let task = document.createElement('li');
         task.id = data[i].id;
-        task.classList = "li_task neutral";
+        task.classList = "li_task";
 
-        let task_container = document.createElement('div');
+        let task_container_text = document.createElement('div');
+        task_container_text.classList = 'task_text'
+
+        let task_container_widget = document.createElement('div');
+        task_container_widget.classList = 'task_widget'
+
         let task_toggle = document.createElement('input');
-        let task_name = document.createElement('h1');
+        let task_name = document.createElement('p');
         let task_date = document.createElement('input');
 
         let task_select = document.createElement('select');
         task_select.addEventListener('input', function(e) {
 
-            console.log(this.parentNode.parentNode.id);
-            //changePriority(this.value, this.parentNode.parentNode.id);
+            changePriority(this.value, this.parentNode.parentNode.id);
         });
 
         //OPTIONS FOR THE SELECT LIST
@@ -60,7 +65,6 @@ function get_tasks_succ(data) {
         task_toggle.classList = 'task_buttons';
         task_toggle.checked = data[i].completed;
 
-        console.log(task_toggle.checked);
 
         task_date.type = "date";
         task_date.value = data[i].deadline_date;
@@ -76,37 +80,75 @@ function get_tasks_succ(data) {
 
         task_select.value = data[i].priority;//SET THE PRIORITY
 
+        task_container_text.appendChild(task_toggle);
+        task_container_text.appendChild(task_name);
+        task_container_widget.appendChild(task_date);
+        task_container_widget.appendChild(task_select);
+        task.appendChild(task_container_text);
+        task.appendChild(task_container_widget);
 
-        task_container.appendChild(task_name);
-        task_container.appendChild(task_toggle);
-        task_container.appendChild(task_date);
-        task_container.appendChild(task_select);
-        task.appendChild(task_container);
+        var item = task_toggle.parentNode.parentNode;
 
+        if(task_toggle.checked){
+            taskContainer_completed.insertBefore(task, taskContainer_completed.childNodes[1]);
 
-        taskContainer.insertBefore(task, taskContainer.childNodes[1]);
+            //GIVING THE CLASS IT SHOULD HAVE
+            item.classList = 'completed tasks';
+        } else {
+            if(task_select.value == "high") {
+                taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[1]);
+            } else {
+                taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[i + 1]);
+            }
+            //CHANGING THE CLASS
+            item.classList = 'uncompleted tasks';
+
+        }
+
 
         //CLICK FUNCTION FOR LI; CHECKED OF UNCHECKED
         task_toggle.addEventListener('click', function(evt) {
 
             let item = this.parentNode.parentNode;
-            item.classList.toggle('completed');
+            var parent = item.parentNode;
+
+            if(this.checked) {
+
+                taskContainer_uncompleted.removeChild(item);
+                taskContainer_completed.insertBefore(item, taskContainer_completed.childNodes[1]);
+                item.classList.remove('uncompleted');
+                item.classList.add('completed');
+            }else{
+                taskContainer_completed.removeChild(item);
+                taskContainer_uncompleted.insertBefore(item, taskContainer_uncompleted.childNodes[1]);
+                item.classList.remove('completed');
+                item.classList.add('uncompleted');
+            }
+
+
             let t_id = this.parentNode.parentNode.id;
             changeCompleted(this.checked, t_id);
+            changeCompletedText();
+
         });
 
-        if(task_toggle.checked) {
-            let item = task_toggle.parentNode.parentNode;
-            item.classList.toggle('completed');
-        }
 
 
     }
+    changeCompletedText();
 
-    //TASKCONTAINER
+    function changeCompletedText(){
 
+        var textItem = document.getElementById(listName + 'name');
+        if(taskContainer_completed.childElementCount == 1) {
+            textItem.innerHTML = 'No completed tasks...';
+        } else {
+            textItem.innerHTML = taskContainer_completed.childElementCount - 1 + ' Completed tasks';
+        }
+    }
 
 };
+
 
 function get_tasks_error(err) {
     console.log(err);
@@ -165,7 +207,7 @@ function changeCompleted(value, taskId) {
 }
 
 function change_completed_succ(data) {
-    console.log(data);
+    //console.log(data);
 };
 
 function change_completed_error(err) {
