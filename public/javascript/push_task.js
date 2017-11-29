@@ -2,10 +2,15 @@
 //CHECK IF THERE IS ANY VALUE -- FUNCTION
 
 function addTask(value) {
-    var taskContainer = document.getElementById(listName);
+    var taskContainer_uncompleted = document.getElementById(listName + 'uncompleted');
+    var taskContainer_completed = document.getElementById(listName + 'completed');
 
-    while(taskContainer.childNodes[1]) {
-        taskContainer.removeChild(taskContainer.childNodes[1]);
+    while(taskContainer_uncompleted.childNodes[1]) {
+        taskContainer_uncompleted.removeChild(taskContainer_uncompleted.childNodes[1]);
+    }
+
+    while(taskContainer_completed.childNodes[1]) {
+        taskContainer_completed.removeChild(taskContainer_completed.childNodes[1]);
     }
 
     if (value == "") {
@@ -19,9 +24,11 @@ function addTask(value) {
 function push_task_to_db(value) {
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
-    let today = new Date().toDateString();
+    let today = new Date().toISOString();
     let isCompleted = false;
     let defaultPriority = "low";
+
+    console.log(today);
 
     let upload = JSON.stringify({
         task_name: value,

@@ -9,35 +9,6 @@ var secret = "greatmindcomesgreatresponsibilty"; //used to create the token
 
 // REGISTER
 
-router.get('/search', function (req, res) {
-
-    var upload = req.query.user;
-
-    var sql = `PREPARE get_user(text) AS
-            SELECT users.loginname FROM users WHERE users.loginname=$1;
-            EXECUTE get_user('${upload}')`;
-
-    db.any(sql).then(function(data) {
-
-        db.any("DEALLOCATE get_user");
-
-    if (data.length <= 0) {
-        res.status(403).json({msg: "User does not exists"}); //send
-        return; //quit
-    } else {
-
-    console.log(data);
-    res.status(200).json(data);
-
-    }
-
-    }).catch(function(err) {
-
-        res.status(500).json({err});
-
-    });
-
-});
 
 router.post('/register', bodyParser, function (req, res) {
 

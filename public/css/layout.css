@@ -2,7 +2,7 @@ body
 {
     margin: 0px;
     padding: 0px;
-    background: url(../../public/images/parallax_back.jpg);
+    background: url(../images/parallax_back.jpg);
     font-family: 'Questrial', sans-serif;
     height: 100%;
 }
@@ -37,7 +37,7 @@ h1
         height: 100px;
         background: rgba(255, 255, 255, 0.3);
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 5fr;
     }
     .w-nav > li
     {
@@ -72,14 +72,17 @@ h1
         }
         .search input#user_search
         {
-            padding: 5px;
-            border-radius: 50px;
+            margin-left: 1em:
+            margin-top: 1em;
+            height: 1.2em;
+            width: auto;
+            border-radius: 4px;
         }
 
 /*-----TEXTBOX-----*/
 .textbox
 {
-    width:400px;
+    width:auto;
     font-family: 'Questrial', sans-serif;
 	height:60px;
     margin-right: 1em;
@@ -113,13 +116,13 @@ li.list_head
     display: flex;
     margin-bottom: 2em;
 }
-.head_widget > input
+.head_widget input
 {
     height: 1.5em;
     width: 300px;
     border-radius: 10px;
 }
-.head_widget > button
+.head_widget button
 {
     height: 2em;
     width: 5em;
@@ -185,6 +188,8 @@ display: grid;
 grid-template-columns: 1fr;
 grid-template-rows: 20px 1fr;
 min-height: 100%;
+margin-top: 2em;
+grid-gap: 2em;
 }
 ul.category_ul
 {
@@ -196,6 +201,7 @@ ul.category_ul
 #board_category
 {
     text-align: center;
+    font-size: 18px;
     list-style-type: none;
 }
 li#board_category
@@ -206,30 +212,143 @@ li#board_category
 
 /*-----ADDED TASKED----*/
 
-.li_sidemenu
-{
-    background: rgba(255, 255, 255, 0.3);
-    text-align: center;
-    list-style-type: none;
-    padding: 1em;
-    transition: 2s;
-}
 .li_sidemenu:hover
 {
     background: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
     padding: 2em;
-    transition: 2s;
+    transition: 1s;
+    cursor: pointer;
 }
+.li_sidemenu:hover
+{
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(120, 217, 246, 0.81);
+    transition: 1s;
+}
+/*-----public/private_list_sidemenu-----*/
+#private li:first-child
+{
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(210, 0, 188, 0.3);
+}
+#public li:first-child
+{
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(0, 205, 209, 0.3);
+}
+
+#private li:not(:first-child)
+{
+    background: rgba(255, 255, 255, 0.3);
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    list-style-type: none;
+    padding: 1em;
+    transition: 1s;
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(210, 0, 188, 0.3);
+
+}
+#public li:not(:first-child)
+{
+    background: rgba(255, 255, 255, 0.3);
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    list-style-type: none;
+    padding: 1em;
+    transition: 1s;
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(0, 205, 209, 0.3);
+}
+#public li:not(:first-child):hover
+{
+    background: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    padding: 2em;
+    cursor: pointer;
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(0, 205, 209, 1);
+    transition: 1s;
+}
+#private li:not(:first-child):hover
+{
+    background: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    padding: 2em;
+    cursor: pointer;
+    border-right-style: solid;
+    border-width: 5px;
+    border-color: rgba(210, 0, 188, 1);
+    transition: 1s;
+}
+
 /*-----public/private_list-----*/
 
 .public_list
 {
     background-color: rgba(0, 205, 209, .2);
+    margin-top: 1em;
     transition: 2s;
 }
 
 .private_list
 {
     background-color: rgba(210, 0, 188, .2);
+    margin-top: 1em;
     transition: 2s;
+}
+
+/*-----INFO-----*/
+.info
+{
+    text-align: center;
+    padding-bottom: 3em;
+    border-style: none none solid none;
+    border-width: 1px;
+}
+.info button
+{
+    cursor: pointer;
+}
+.info input
+{
+    margin-left: 1em:
+    margin-top: 1em;
+    height: 1.2em;
+    width: auto;
+    border-radius: 4px;
+}
+/*-----SEARCH USER-----*/
+
+
+#user_search_table
+{
+    list-style-type: none;
+    margin-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+.search_user_div
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+}
+.search_user_div > button
+{
+    height: 2em;
+    width: 4.5em;
+    margin-top: 1em;
+    cursor: pointer;
+}
+.search_users_smalltext
+{
+    font-size: 10px;
 }

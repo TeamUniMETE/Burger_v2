@@ -25,3 +25,27 @@
     background-color: blue;
     transition: .9s;
 }
+
+/*-----LIST-----*/
+.head_text
+{
+    height: 5em;
+}
+.head_text > textarea
+{
+    margin-top: 0;
+}
+.head_text > p
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.head_widget
+{
+    height:auto;
+    margin-bottom: 0;
+}
+.list_head
+{
+    height: 150px;
+}

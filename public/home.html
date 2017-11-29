@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" href="../../public/css/layout.css" />
-    <link rel="stylesheet" href="../../public/css/list.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/list.css" />
     <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 </head>
 
@@ -16,26 +16,28 @@
                 <input id="user_search" placeholder="search for user..."type="text"/>
                 <ul id="user_search_table"></ul>
             </div>
+
+            <div class="user">
+                <p id="user_name_header_tag"></p>
+            </div>
             <nav>
                 <ul class="w-nav">
-                    <li role="presentation"><a class="nav-items" href="#">Logout</a></li>
-                    <li role="presentation"><a class="nav-items" href="#">Profile</a></li>
-                    <li role="presentation"><a class="nav-items" href="#" />Dashboard</a>
+                    <li role="presentation"><a class="nav-items" href="loggout.html">Logout</a></li>
                     </li>
                 </ul>
             </nav>
         </div>
         <div class="sidemenu">
             <div class="info">
-                <button onclick="addList()">New List</button>
                 <input id="listName" type="text" />
+                <button onclick="addList()">New List</button>
             </div>
             <div class="list_sidemenu_container">
                 <ul class="category_ul" id="public">
                     <li id="board_category">Public Lists</li>
                 </ul>
                 <ul class="category_ul" id="private">
-                    <li id="board_category" >Private Lists</li>
+                    <li id="board_category">Private Lists</li>
                 </ul>
             </div>
         </div>
@@ -49,13 +51,13 @@
 
     <!-- SCRIPTS -->
 
-    <script src="../js/fetch.js"></script>
-    <script src="../js/search_users.js"></script>
-    <script src="../js/push_list.js"></script>
-    <script src="../js/push_task.js"></script>
-    <script src="../js/get_lists.js"></script>
-    <script src="../js/get_tasks.js"></script>
-    <script src="../js/remove.js"></script>
+    <script src="javaScript/fetch.js"></script>
+    <script src="javaScript/search_users.js"></script>
+    <script src="javaScript/push_list.js"></script>
+    <script src="javaScript/push_task.js"></script>
+    <script src="javaScript/get_lists.js"></script>
+    <script src="javaScript/get_tasks.js"></script>
+    <script src="javaScript/remove.js"></script>
 
 </body>
 

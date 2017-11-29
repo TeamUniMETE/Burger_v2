@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
-    <link rel="stylesheet" href="../../public/css/reg_log.css" />
+    <title>register</title>
+    <link rel="stylesheet" href="css/reg_log.css" />
     <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 </head>
 
@@ -13,51 +13,56 @@
         <div class="w-head">
             <nav>
                 <ul class="w-nav">
-                    <li role="presentation"><a class="nav-items" href="/users/logout">Logout</a></li>
-                    <li role="presentation"><a class="nav-items" href="/users/register">Register</a></li>
-                    <li role="presentation"><a class="nav-items" href="/users/login">Login</a></li>
-                    <li role="presentation"><a class="nav-items" href="/" />Dashboard</a>
+                    <li role="presentation"><a class="nav-items" href="register.html">Register</a></li>
+                    <li role="presentation"><a class="nav-items" href="login.html">Login</a></li>
                     </li>
                 </ul>
             </nav>
         </div>
         <div class="content">
             <span class="intro">
-              <h2 id="intro-nav">Register</h2>
-              <p>Sign up for burger</p>
-            </span>
+                <h2 id="intro-nav">Register</h2>
+                <p>Sign up for burger</p>
+             </span>
             <div class="field">
                 <section class="input-content">
-                    <h2>login</h2>
+                    <h2>Register</h2>
+                    <div class="input-div-field">
+                        <input name="fullname" class="input-field" id="fullname" type="text" placeholder="Full Name" />
+                    </div>
                     <div class="input-div-field">
                         <input name="username" class="input-field" id="username" type="text" placeholder="Username" />
                     </div>
                     <div class="input-div-field">
                         <input name="password" class="input-field" id="password" type="password" placeholder="Password" />
+
                     </div>
-                    <button onclick="login()" type="submit">Register</button>
+                    <button onclick="register()" type="submit">Register</button>
                 </section>
             </div>
         </div>
+
     </div>
     <div class="footer">
 
     </div>
-    <script src="../js/fetch.js"></script>
+    <script src="javaScript/fetch.js"></script>
 </body>
 <script>
     var username = document.getElementById('username');
     var password = document.getElementById('password');
+    var fullname = document.getElementById('fullname');
 
-    function login() {
+    function register() {
 
         var upload = JSON.stringify({
             loginname: username.value,
-            password: password.value
+            password: password.value,
+            fullname: fullname.value
         });
 
-        //var url = "https://burgerapplication.herokuapp.com/users/auth/";
-        var url = "http://localhost:3000/users/auth/";
+        var url = "http://localhost:3000/users/register/"; //Localhost url -----*
+        //var url = "https://burgerapplication.herokuapp.com/users/register/"; //Heroku url -----*
 
         var cfg = {
             method: "POST",
@@ -65,16 +70,16 @@
         }
 
         superfetch(url, "json", succ, error, cfg);
-    }
+    };
 
     function succ(data) {
-
-        console.log(data);
-
+        //save logindata/token to localStorage
         localStorage.setItem("logindata", JSON.stringify(data));
-        window.location.replace('index.html');
+        console.log(data);
+        window.location.replace('login.html');
     }
 
+    //error ----------------------------------------
     function error(err) {
         console.log(err);
     }

@@ -49,13 +49,13 @@ body
     }
     .nav-items:hover
     {
+        padding-left: 20px;
+        padding-right: 20px;
+        transition: .5s;
         color: rgba(155, 200, 255, .8);
-        transition: .5s;
-    }
-    li:hover{
-        font-size: 23px;
-        color: #eee;
-        transition: .5s;
+        border-left-style: solid;
+        border-right-style: solid;
+        border-width: 2px;
     }
         /*-----HEADERSEARCH-----*/
         .search

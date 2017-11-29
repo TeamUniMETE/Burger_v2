@@ -30,12 +30,13 @@ router.use(function (req, res, next) {
 });
 
 //GET REQUESTS----------------------
-router.post('/', bodyParser, function(req, res) {
-    var upload = JSON.parse(req.body);
+router.get('/', function(req, res) {
+
+    var list_id = req.query.list_id;
 
     var sql = `PREPARE get_tasks(int) AS
             SELECT * FROM tasks WHERE list_id=$1;
-            EXECUTE get_tasks('${upload.list_id}')`;
+            EXECUTE get_tasks('${list_id}')`;
 
     db.any(sql).then(function(data) {
 
@@ -54,6 +55,7 @@ router.post('/', bodyParser, function(req, res) {
     });
 
 });
+
 //DELETE REQUESTS--------------------
 router.delete('/task', function(req, res) {
 
