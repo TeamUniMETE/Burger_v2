@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
     var upload = req.query.user;
 
     var sql = `PREPARE get_user(text) AS
-            SELECT users.loginname, users.id FROM users WHERE users.loginname=$1;
+            SELECT loginname, id FROM users WHERE loginname=$1;
             EXECUTE get_user('${upload}')`;
 
     db.any(sql).then(function(data) {
@@ -18,11 +18,9 @@ router.get('/', function (req, res) {
         db.any("DEALLOCATE get_user");
 
     if (data.length <= 0) {
-        res.status(403).json({msg: "User does not exists"}); //send
+        res.status(403).json({msg: "Couldnt find User"}); //send
         return; //quit
     } else {
-
-    console.log(data);
     res.status(200).json(data);
 
     }
@@ -40,7 +38,8 @@ router.get('/view', function(req, res) {
     var user_id = req.query.user_id;
 
     var sql = `PREPARE view_userlist(int) AS
-            SELECT * FROM lists WHERE user_id=$1 AND private=false;
+            SELECT * FROM lists WHERE user_id=$1 AND private=false
+            ORDER BY id;
             EXECUTE view_userlist('${user_id}')`;
 
     db.any(sql).then(function(data) {
@@ -68,7 +67,8 @@ router.get('/tasks', function(req, res) {
     var list_id = req.query.list_id;
 
     var sql = `PREPARE view_usertasks(int) AS
-            SELECT * FROM tasks WHERE list_id=$1;
+            SELECT * FROM tasks WHERE list_id=$1
+            ORDER BY id;
             EXECUTE view_usertasks('${list_id}')`;
 
         db.any(sql).then(function(data) {

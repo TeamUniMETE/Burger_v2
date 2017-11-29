@@ -2,17 +2,20 @@ body
 {
     margin: 0px;
     padding: 0px;
-    background: url(../images/parallax_back.jpg);
+    background-image: url(../images/parallax_back.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: 'Questrial', sans-serif;
-    height: 100%;
 }
 h1
 {
     font-family: 'Questrial', sans-serif;
 }
-.container {
+.container
+{
   display: grid;
   grid-template-columns: 300px 500px 500px 1fr;
+  grid-template-rows: 100px 1440px;
   grid-template-areas:
   "h h h h"
   "s c c c"
@@ -129,11 +132,11 @@ li.list_head
     margin-left: 1em;
     border-radius: 10px;
 }
-
+/*-----TASKS----*/
 .tasks
 {
     display: grid;
-    grid-template-columns: 3fr 1fr 7px;
+    grid-template-columns: 3fr 3fr 7px;
 }
 
 .task_text > p
@@ -141,6 +144,15 @@ li.list_head
     display: inline-block;
     margin-left: 1em;
     font-size: 15px;
+}
+.task_widget
+{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.task_widget input
+{
+    margin-top: 1em;
 }
 
 .group
@@ -351,4 +363,49 @@ li#board_category
 .search_users_smalltext
 {
     font-size: 10px;
+}
+
+/*-----VIEW SEARCH USER LISTS-----*/
+.view_task_ul
+{
+    list-style-type: circle;
+    margin-left: 4em;
+    margin-right: 4em;
+    border-bottom-style: solid;
+    border-width: 5px;
+    border-color: rgba(176, 251, 244, 0.77);
+    background: linear-gradient(rgba(176, 251, 244, 0.77), transparent);
+}
+
+.view_task_ul li:first-child
+{
+    padding: 2em;
+    /*background: rgba(176, 251, 244, 0.77);*/
+}
+.view_task_li
+{
+    display: grid;
+    grid-template-columns: 1fr 2fr 5px;
+    margin-left: 2em;
+    margin-right: 0;
+    transition: 1s;
+}
+.view_task_li:hover
+{
+    display: grid;
+    grid-template-columns: 1fr 2fr 5px;
+    margin-left: 0;
+    margin-right: 0;
+    transition: 1s;
+    background: linear-gradient(to left, white, transparent);
+}
+.view_task_info_container
+{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.selected_task_li
+{
+    height: 100px;
+    background: linear-gradient(to left, white, transparent);
 }

@@ -1,4 +1,5 @@
 var searchedUser;
+var selectedTaskLi;
 //RESULT CONTAINER --
 var ul_usertable = document.getElementById('user_search_table');
 
@@ -10,10 +11,8 @@ var user_search = document.getElementById('user_search').addEventListener('input
 
     let name = this.value;
 
-    let token = JSON.parse(localStorage.getItem('logindata')).token;
-
-    var url = 'http://localhost:3000/search/?user=' + name + '&token=' + token;
-    //var url = 'https://burgerapplication.herokuapp.com/search/?user=' + name + '&token=' + token;
+    var url = 'http://localhost:3000/search/?user=' + name;
+    //var url = 'https://burgerapplication.herokuapp.com/search/?user=' + name;
 
     var cfg = {
         method: 'GET'
@@ -110,17 +109,31 @@ function view_succ(data) {
             for(let j = 0; j < search_data.length; j++) {
                 console.log('i have runned ' + j + 1 + ' times');
                 let task = document.createElement('li');
-                li.classList = 'view_task_li';
+                task.classList = 'view_task_li';
+
+                task.addEventListener('click', function(e){
+                    this.classList.toggle('selected_task_li');
+                })
 
                 //NAMECONTAINER
                 let task_name_container = document.createElement('div');
-                let task_name = document.createElement('h1');
+                let task_name = document.createElement('h3');
 
                 //INFOCONTAINER
                 let task_info_container = document.createElement('div');
+                task_info_container.classList = 'view_task_info_container';
                 let task_completed = document.createElement('p');
                 let task_priority = document.createElement('p');
                 let task_deadline = document.createElement('p');
+
+                let task_priority_code = document.createElement('div');
+                if(search_data[j].priority == 'low') {
+                    task_priority_code.classList = 'low';
+                }else if(search_data[j].priority == 'medium') {
+                    task_priority_code.classList = 'medium';
+                }else if(search_data[j].priority == 'high'){
+                    task_priority_code.classList = 'high';
+                }
 
                 //GIVING VALUES
                 task_name.innerHTML = search_data[j].task_name;
@@ -137,6 +150,7 @@ function view_succ(data) {
                 //APPENDING TO LI
                 task.appendChild(task_name_container);
                 task.appendChild(task_info_container);
+                task.appendChild(task_priority_code);
 
                 //APPENDING TO UL
                 user_list.appendChild(task);
