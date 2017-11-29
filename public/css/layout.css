@@ -68,7 +68,7 @@ h1
         border-width: 2px;
     }
 
-        /*-----HEADERSEARCH-----*/
+        /*-----HEADERSEARCHUSER-----*/
         .search
         {
             margin: 1em;
@@ -82,32 +82,52 @@ h1
             border-radius: 4px;
         }
 
-/*-----TEXTBOX-----*/
-.textbox
-{
-    width:auto;
-    font-family: 'Questrial', sans-serif;
-	height:60px;
-    margin-right: 1em;
-	background-color: transparent;
-	border:1px solid rgba(155, 200, 255, .8);
-    border-radius: 10px;
-    resize: none;
-}
 /*-----CONTENT-----*/
-li.list_head
-{
-    display: grid;
-    grid-template-columns: 1fr;
-    height: 200px;
 
-}
-.head_text > p
-{
-    font-size: 40px;
-    display: inline-block;
-    margin-right: 1em;
-}
+/*-----PERSONAL LIST-----*/
+
+    /*-----PERSONAL HEAD LIST----*/
+    .list_head
+    {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 90px 90px;
+    }
+    /*containertxt&descr*/
+    .head_text
+    {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    /*CHECKBOX*/
+    .head_text
+    {
+
+    }
+
+    /*listName*/
+    .head_text p
+    {
+        font-size: 30px;
+    }
+    .textbox
+    {
+        width:auto;
+        font-family: 'Questrial', sans-serif;
+    	height:60px;
+        margin-right: 1em;
+    	background-color: transparent;
+    	border:1px solid rgba(155, 200, 255, .8);
+        border-radius: 10px;
+        resize: none;
+    }
+
+    /*------PERSONAL TASKS-----*/
+
+
+/*-----CONTENT-----*/
+
+
 .li_completed
 {
     text-align: center;
@@ -231,9 +251,6 @@ li#board_category
     padding: 2em;
     transition: 1s;
     cursor: pointer;
-}
-.li_sidemenu:hover
-{
     border-right-style: solid;
     border-width: 5px;
     border-color: rgba(120, 217, 246, 0.81);
