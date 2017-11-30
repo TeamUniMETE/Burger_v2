@@ -9,7 +9,7 @@ function getNotifications() {
 
 
     //var url = 'http:localhost:3000/tasks/notifications?user_id=' + user_id + '&today='+ today +'&token=' + token;
-    let url = 'https://burgerapplication.herokuapp.com/tasks/notifications/?user_id=' + user.id + '&today='+ today +'&token=' + user.token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/n/?user_id=' + user.id + '&today='+ today +'&token=' + user.token;
 
     let cfg = {
         method: 'GET'

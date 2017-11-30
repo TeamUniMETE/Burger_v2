@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
 
 });
 
-router.get('/notifications', function(req, res) {
+router.get('/n', function(req, res) {
 
     var user_id = req.query.user_id;
     var date = req.query.today;
