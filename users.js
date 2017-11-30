@@ -9,15 +9,14 @@ var secret = "greatmindcomesgreatresponsibilty"; //used to create the token
 
 // REGISTER
 
-
 router.post('/register', bodyParser, function (req, res) {
 
     var upload = JSON.parse(req.body);
     var encrPassw = bcrypt.hashSync(upload.password, 10); //hash the password
 
-    var sql = `PREPARE insert_user (int, text, text, text) AS
-                INSERT INTO users VALUES(DEFAULT, $2, $3, $4); EXECUTE insert_user
-                (0, '${upload.loginname}', '${encrPassw}', '${upload.fullname}')`;
+    var sql = `PREPARE insert_user(int, text, text, text) AS
+                INSERT INTO users VALUES(DEFAULT, $2, $3, $4);
+                EXECUTE insert_user(0, '${upload.loginname}', '${encrPassw}', '${upload.fullname}')`;
 
 
     db.any(sql).then(function(data) {

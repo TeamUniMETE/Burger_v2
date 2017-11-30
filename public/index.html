@@ -47,6 +47,7 @@
 
     </div>
     <script src="javaScript/fetch.js"></script>
+    <script src="javaScript/regex.js"></script>
 </body>
 <script>
     var username = document.getElementById('username');
@@ -61,19 +62,28 @@
             fullname: fullname.value
         });
 
-        var url = "http://localhost:3000/users/register/"; //Localhost url -----*
-        //var url = "https://burgerapplication.herokuapp.com/users/register/"; //Heroku url -----*
+        //var url = "http://localhost:3000/users/register/"; //Localhost url -----*
+        let url = "https://burgerapplication.herokuapp.com/users/register/"; //Heroku url -----*
 
         var cfg = {
             method: "POST",
             body: upload
         }
 
-        superfetch(url, "json", succ, error, cfg);
+        if(regexNumChar(username.value) || regexNumChar(password.value)) {
+            alert('only characters and numbers pls');
+
+        } else {
+            if(regexCharSpace(fullname.value))
+            {
+                alert('does this "' + fullname.value + '" look like a name to you?');
+            } else {
+                superfetch(url, "json", succ, error, cfg);
+            }
+        }
     };
 
     function succ(data) {
-        //save logindata/token to localStorage
         localStorage.setItem("logindata", JSON.stringify(data));
         console.log(data);
         window.location.replace('login.html');

@@ -16,11 +16,15 @@
                 <input id="user_search" placeholder="search for user..."type="text"/>
                 <ul id="user_search_table"></ul>
             </div>
-
             <div class="user">
                 <p id="user_name_header_tag"></p>
             </div>
-            <nav>
+            <div class="dropdown">
+                <button id="dropbtn" class="dropbtn">TASKS TODAY</button>
+                    <div class="dropdown-content" id="notification_list">
+                    </div>
+            </div>
+            <nav class="nav-bar">
                 <ul class="w-nav">
                     <li role="presentation"><a class="nav-items" href="loggout.html">Logout</a></li>
                     </li>
@@ -57,7 +61,9 @@
     <script src="javaScript/push_task.js"></script>
     <script src="javaScript/get_lists.js"></script>
     <script src="javaScript/get_tasks.js"></script>
+    <script src="javaScript/get_notifications.js"></script>
     <script src="javaScript/remove.js"></script>
+    <script src="javaScript/regex.js"></script>
 
 </body>
 

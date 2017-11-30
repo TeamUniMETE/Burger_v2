@@ -4,25 +4,25 @@
 
 .completed
 {
-    background-color: rgba(196, 0, 214, 0.72);
+    background-color: rgb(183, 255, 234);
     transition: .9s;
 }
 
 .high
 {
-    background-color: red;
+    background-color: rgb(255, 15, 15);
     transition: .9s;
 }
 
 .medium
 {
-    background-color: white;
+    background: rgb(221, 142, 255);
     transition: .9s;
 }
 
 .low
 {
-    background-color: blue;
+    background-color: rgb(129, 255, 127);
     transition: .9s;
 }
 

@@ -56,6 +56,35 @@ router.get('/', function(req, res) {
 
 });
 
+router.get('/notifications', function(req, res) {
+
+    var user_id = req.query.user_id;
+    var date = req.query.today;
+    console.log(date);
+    console.log(user_id);
+
+    var sql = `PREPARE get_notifications(text, int) AS
+            SELECT * FROM tasks WHERE deadline_date=$1 AND user_id=$2 AND completed=false;
+            EXECUTE get_notifications('${date}', '${user_id}')`;
+
+    db.any(sql).then(function(data) {
+
+        db.any('DEALLOCATE get_notifications');
+
+        if(data.length <= 0) {
+            res.status(403).json({msg: 'no tasks today'});
+            return;
+        }
+
+        res.status(200).json(data);
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
+
+});
+
 //DELETE REQUESTS--------------------
 router.delete('/task', function(req, res) {
 
@@ -84,9 +113,9 @@ router.post('/add', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
-    var sql = `PREPARE insert_task (int, text, date, text, boolean, int) AS
-            INSERT INTO tasks VALUES(DEFAULT, $2, $3, $4, $5, $6);
-            EXECUTE insert_task(0, '${upload.task_name}', '${upload.deadline_date}', '${upload.priority}', '${upload.completed}', '${upload.list_id}')`;
+    var sql = `PREPARE insert_task (int, text, text, text, boolean, int, int) AS
+            INSERT INTO tasks VALUES(DEFAULT, $2, $3, $4, $5, $6, $7);
+            EXECUTE insert_task(0, '${upload.task_name}', 0, '${upload.priority}', '${upload.completed}', '${upload.list_id}', '${upload.user_id}')`;
 
     console.log(sql);
 
@@ -135,6 +164,25 @@ router.post('/completed', bodyParser, function(req, res) {
         db.any('DEALLOCATE update_completed');
 
         res.status(200).json({msg: 'UPDATE -completed- EY OKEY'});
+
+    }).catch(function(err) {
+
+        res.status(500).json({err});
+    });
+});
+
+router.post('/deadline', bodyParser, function(req, res) {
+    var upload = JSON.parse(req.body);
+
+    var sql = `PREPARE update_deadline(date, int) AS
+            UPDATE tasks SET deadline_date=$1 WHERE id=$2;
+            EXECUTE update_deadline('${upload.deadline_date}', '${upload.task_id}')`;
+
+    db.any(sql).then(function(data) {
+
+        db.any('DEALLOCATE update_deadline');
+
+        res.status(200).json({msg: 'UPDATE -deadline- EY OKEY'});
 
     }).catch(function(err) {
 

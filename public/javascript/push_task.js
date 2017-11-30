@@ -13,8 +13,8 @@ function addTask(value) {
         taskContainer_completed.removeChild(taskContainer_completed.childNodes[1]);
     }
 
-    if (value == "") {
-        alert("There was no value");
+    if (value == "" || regexNumCharSpace(value)) {
+        alert("There was no value or special characters");
     } else {
         push_task_to_db(value);
     }
@@ -23,19 +23,19 @@ function addTask(value) {
 
 function push_task_to_db(value) {
 
-    let token = JSON.parse(localStorage.getItem('logindata')).token;
-    let today = new Date().toISOString();
+    let user = JSON.parse(localStorage.getItem('logindata'));
+    let token = user.token;
+    let userId = user.id;
     let isCompleted = false;
     let defaultPriority = "low";
 
-    console.log(today);
 
     let upload = JSON.stringify({
         task_name: value,
-        deadline_date: today,
         priority: defaultPriority,
         completed: isCompleted,
-        list_id: selected_listId
+        list_id: selected_listId,
+        user_id: userId
     });
 
 
@@ -44,8 +44,8 @@ function push_task_to_db(value) {
         body: upload
     }
 
-    let url = "http://localhost:3000/tasks/add?token=" + token;
-    //var url = 'https://burgerapplication.herokuapp.com/tasks/add?token=" + token;
+    //let url = "http://localhost:3000/tasks/add?token=" + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/add?token=' + token;
 
     superfetch(url, "json", create_task_succ, create_task_error, cfg);
 

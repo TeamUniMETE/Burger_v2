@@ -11,14 +11,19 @@ var user_search = document.getElementById('user_search').addEventListener('input
 
     let name = this.value;
 
-    var url = 'http://localhost:3000/search/?user=' + name;
-    //var url = 'https://burgerapplication.herokuapp.com/search/?user=' + name;
+    //let url = 'http://localhost:3000/search/?user=' + name;
+    let url = 'https://burgerapplication.herokuapp.com/search/?user=' + name;
 
     var cfg = {
         method: 'GET'
+    };
+
+    if(regexNumChar(name)){
+        alert('Only characters and numbers');
+    }else{
+        superfetch(url, "json", user_search_succ, user_search_error, cfg);
     }
 
-    superfetch(url, "json", user_search_succ, user_search_error, cfg);
 
 });
 
@@ -50,7 +55,8 @@ function user_search_succ(data) {
 
             let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-            let url = 'http://localhost:3000/search/view?user_id=' + user_id + '&token=' + token;
+            //let url = 'http://localhost:3000/search/view?user_id=' + user_id + '&token=' + token;
+            let url = 'https://burgerapplication.herokuapp.com/search/view?user_id=' + user_id + '&token=' + token;
 
             let cfg = {
                 method: 'GET'
@@ -95,7 +101,8 @@ function view_succ(data) {
 
         //RETRIEVING TASKS IN THE LIST TO THE USER YOU SEARCHED FOR -- NO EDIT --
 
-        let url = 'http:localhost:3000/search/tasks?list_id=' + data[i].id;
+        //let url = 'http:localhost:3000/search/tasks?list_id=' + data[i].id;
+        let url = 'https://burgerapplication.herokuapp.com/search/tasks?list_id=' + data[i].id;
 
         var cfg = {
             method: 'GET'

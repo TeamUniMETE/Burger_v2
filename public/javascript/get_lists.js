@@ -16,10 +16,9 @@ window.onload = function(){
     var user_name_header_tag = document.getElementById('user_name_header_tag');
     user_name_header_tag.innerHTML = 'Welcome ' + user.fullname;
 
+    getNotifications();
     getLists();
 }
-
-
 
 function getLists() {
 
@@ -28,8 +27,8 @@ function getLists() {
     let user_id = user.id;
 
 
-    var url = 'http://localhost:3000/lists?user_id=' + user_id + '&token=' + token;
-    //var url = 'https://burgerapplication.herokuapp.com/lists?user_id=' + user_id + '&token=' + token;
+    //let url = 'http://localhost:3000/lists?user_id=' + user_id + '&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/lists?user_id=' + user_id + '&token=' + token;
 
     var cfg = {
         method: "GET"
@@ -59,21 +58,18 @@ function get_all_lists_succ(data) {
             sidemenu_public.appendChild(sidemenu_li);
         }
 
-
         //EVENT LISTENER FOR THE DIV --- RETRIEVES THE LIST
         sidemenu_li.addEventListener('click', function(){
 
             let id = this.id;
             let s_id = id.replace("sidemenu", "");
-            listName = this.innerHTML;
 
+            let user = JSON.parse(localStorage.getItem('logindata'));
+            let token = user.token;
+            let user_id = user.id;
 
-            var user = JSON.parse(localStorage.getItem('logindata'));
-            var token = user.token;
-            var user_id = user.id;
-
-            var url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
-            //var url = 'https://burgerapplication.herokuapp.com/lists/single?user_id=' + user_id + '&token=' + token + '&list_name=' + listName;
+            //let url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
+            let url = 'https://burgerapplication.herokuapp.com/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
 
             let cfg = {
                 method:'GET'
@@ -87,12 +83,13 @@ function get_all_lists_succ(data) {
     }
 
 };
+
 //---get_SINGLE_list_succ----//
 function get_single_list_succ(data) {
 
-
     var res_data = data[0];
     selected_listId = res_data.id;
+    listName = res_data.list_name;
 
     //REMOVING THE LAST LIST FROM LISTCONTAINER IF THERE WERE ANY
 
@@ -114,42 +111,67 @@ function get_single_list_succ(data) {
     head.id = res_data.list_name + "head";
     head.classList = "list_head";
 
-    //CREATING TASKBAR/HEADBAR AND ITS BUTTONS AND INPUT-FIELD--------------
+    //HEADCONTAINER
+    var head_container = document.createElement('div');
+    head_container.classList = 'head_container';
+
+    //FIRST HEADCONTAINER -- TOGGLEBOX -- LISTNAME --------------
 
     var head_container_text = document.createElement('div');
-    head_container_text.classList = 'head_text';
-
-    var head_container = document.createElement('div');
-    head_container.classList = 'head_widget';
-
-    var head_name = document.createElement('p');
-    head_name.innerHTML = res_data.list_name;
-
-    var textarea = document.createElement('textarea');
-    textarea.id = res_data.list_name + 'textbox';
-    textarea.classList = 'textbox';
-    textarea.value = res_data.description;
-
-    var head_input = document.createElement('input');
-    head_input.id = res_data.list_name + "input";
-
-    var head_button = document.createElement('button');
-    head_button.innerHTML = 'add';
-
-    var head_button_delete = document.createElement('button');
-    head_button_delete.innerHTML = 'delete';
+    head_container_text.classList = 'head_container_text'
 
     var head_toggle_box = document.createElement('input');
     head_toggle_box.type = "checkbox";
     head_toggle_box.id = res_data.list_name + 'privacy_box'
     head_toggle_box.checked = res_data.private;
 
+    var head_name = document.createElement('p');
+    head_name.innerHTML = res_data.list_name;
+
+    //SECOND HEADCONTAINER -- DESCRIPTIONBOX --------------------
+    var head_container_description = document.createElement('div');
+    head_container_description.classList = 'head_container_description'
+
+    var head_description = document.createElement('textarea');
+    head_description.id = res_data.list_name + 'textbox';
+    head_description.classList = 'head_description';
+    head_description.value = res_data.description;
+
+    /*
+        -- APPENDING TO THE SECOND HEADCONTAINER --
+    */
+    head_container_description.appendChild(head_description);
+
+    //THIRD HEADCONTAINER -- ADDING TASKS ------------------------
+    var head_container_add = document.createElement('div');
+    head_container_add.classList = 'head_container_add'
+
+    var head_input_add = document.createElement('input');
+    head_input_add.id = res_data.list_name + "input";
+
+    var head_button_add = document.createElement('button');
+    head_button_add.innerHTML = 'add';
+
+    //FOURTH HEADCONTAINER -- DELETE LIST -----------------------
+
+    var head_container_delete = document.createElement('div');
+    head_container_delete.classList = 'head_container_delete'
+
+    var head_button_delete = document.createElement('button');
+    head_button_delete.innerHTML = 'delete';
+
+    /*
+        -- APPENDING TO THE THIRD HEADCONTAINER --
+    */
+    head_container_delete.appendChild(head_button_delete);
+
+    //EVENT LISTENERS FOR ALL -------------------------------
+
     //CLICK FUNCTION FOR CHECKBOX
     head_toggle_box.addEventListener('click', function(evt) {
-        let parent = this.parentNode.parentNode.parentNode;
+        //let parent = this.parentNode.parentNode.parentNode;
         let s_id = this.id
         let list_name= s_id.replace("privacy_box", "");
-
         let listId = res_data.id;
 
         let sLI = document.getElementById(listId + 'sidemenu');
@@ -176,19 +198,20 @@ function get_single_list_succ(data) {
             ul_completed.classList.add('public_list');
             ul_completed.classList.remove('private_list');
         }
+
     });
 
-    if(textarea.value == "") {
-        textarea.value = 'Add a description...';
+    if(head_description.value == "") {
+        head_description.value = 'Add a description...';
     }
 
     //CREATING A DESCRIPTION BOX --- EVENT ----
-    textarea.addEventListener('input', function(){
+    head_description.addEventListener('input', function(){
 
         let s_id = this.id
         let list_name = s_id.replace("textbox", "");
         let listId = res_data.id;
-        let desc = textarea.value;
+        let desc = head_description.value;
         let sLI = document.getElementById(list_name + 'sidemenu');
 
         changeDescription(desc, listId);
@@ -196,8 +219,7 @@ function get_single_list_succ(data) {
     });
 
     //CLICK FUNCTION FOR ADDING TASKS
-    head_button.addEventListener('click', function() {
-
+    head_button_add.addEventListener('click', function(evt) {
         let value = document.getElementById(res_data.list_name + "input").value;
         let listId = res_data.id;
         var taskContainer = document.getElementById(listName);
@@ -207,7 +229,7 @@ function get_single_list_succ(data) {
 
     //DELETING LIST
     head_button_delete.addEventListener('click', function(evt){
-        let item = this.parentNode.parentNode;
+        let item = this.parentNode.parentNode.parentNode;
 
         //UNCOMPLETED LIST
         var parent_uncompleted_list = item.parentNode;
@@ -247,6 +269,8 @@ function get_single_list_succ(data) {
                 sidemenu_private.removeChild(sidemenu_remove);
             }
         }
+
+        getNotifications();
 
     });
 
@@ -290,24 +314,34 @@ function get_single_list_succ(data) {
     }
 
     //----------------------------------------------------------
-
-
+    //appending to the first headcontainer
+    head_container_text.appendChild(head_toggle_box);
     head_container_text.appendChild(head_name);
-    head_container_text.appendChild(textarea);
-    head_container.appendChild(head_input);
-    head_container.appendChild(head_button);
-    head_container.appendChild(head_button_delete);
 
-    head.append(head_container_text);
+    //appending to the second headcontainer
+    head_container_description.appendChild(head_description);
+
+    //appending to the third headcontainer
+    head_container_add.appendChild(head_input_add);
+    head_container_add.appendChild(head_button_add);
+
+    //appending to the fourth headcontainer
+    head_container_delete.appendChild(head_button_delete);
+
+    //APPENDING HEAD_CONTAINERS TO HEAD_CONTAINER
+    head_container.appendChild(head_container_text);
+    head_container.appendChild(head_container_description);
+    head_container.appendChild(head_container_add);
+    head_container.appendChild(head_container_delete);
+
     head.appendChild(head_container);
 
-
     /*-----Appending li to ul-----*/
-
     ul_uncompleted.appendChild(head);
     listContainer.appendChild(ul_uncompleted);
     listContainer.appendChild(ul_completed);
 
+    //GET THE TASKS IN THE LIST
     getTasks();
 
 };
@@ -330,8 +364,8 @@ function changePrivacy(privacy, list_name, listId){
     let token = user.token;
     let userId = user.id;
 
-    let url = "http://localhost:3000/lists/priv?privacy=" + privacy + '&token=' + token + '&list_name' + list_name;
-    //var url = 'https://burgerapplication.herokuapp.com/lists/priv?privacy=" + privacy + '&token=' + token + '&list_name' + list_name;
+    //let url = "http://localhost:3000/lists/priv?privacy=" + privacy + '&token=' + token + '&list_name' + list_name;
+    let url = 'https://burgerapplication.herokuapp.com/lists/priv?privacy=' + privacy + '&token=' + token + '&list_name' + list_name;
 
     let upload = JSON.stringify({
         user_id: userId,
@@ -362,8 +396,8 @@ function changeDescription(text, listId) {
     let token = user.token;
     let userId = user.id;
 
-    let url = "http://localhost:3000/lists/desc?token=" + token;
-    //var url = 'https://burgerapplication.herokuapp.com/lists/desc?token=" + token;
+    //let url = "http://localhost:3000/lists/desc?token=" + token;
+    var url = 'https://burgerapplication.herokuapp.com/lists/desc?token=' + token;
 
     let upload = JSON.stringify({
         user_id: userId,

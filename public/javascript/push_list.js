@@ -6,8 +6,8 @@ function addList() {
     listName = document.getElementById('listName').value;
     var check = document.getElementById(listName + 'sidemenu');
 
-    if (listName == "" || check) {
-        alert("There was no value OR the board already exists");
+    if (listName == "" || check || regexNumCharSpace(listName)) {
+        alert("There was no value OR the board already exists OR special characters");
     } else {
 
         while(sidemenu_public.childNodes[2]){
@@ -43,8 +43,8 @@ function push_list_to_db(listName){
         body: upload
     };
 
-    let url = "http://localhost:3000/lists/?token=" + token;
-    //var url = 'https://burgerapplication.herokuapp.com/lists/?token=" + token;
+    //let url = "http://localhost:3000/lists/?token=" + token;
+    let url = 'https://burgerapplication.herokuapp.com/lists/?token=' + token;
 
     superfetch(url, "json", create_list_succ, create_list_error, cfg);
 

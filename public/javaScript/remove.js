@@ -22,7 +22,8 @@ function remove_list(listId) {
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-    let url = 'http://localhost:3000/lists/list?listid=' + listId + '&token=' + token;
+    //let url = 'http://localhost:3000/lists/list?listid=' + listId + '&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/lists/list?listid=' + listId + '&token=' + token;
 
     var cfg = {
         method: 'DELETE'

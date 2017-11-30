@@ -7,8 +7,8 @@ function getTasks(){
         method: 'GET'
     };
 
-    let url = "http://localhost:3000/tasks/?list_id="+ selected_listId + '&token=' + token;
-    //var url = 'https://burgerapplication.herokuapp.com/tasks/?token=" + token;
+    //let url = "http://localhost:3000/tasks/?list_id="+ selected_listId + '&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/?list_id='+ selected_listId + '&token=' + token;
 
     superfetch(url, "json", get_tasks_succ, get_tasks_error, cfg);
 }
@@ -34,23 +34,24 @@ function get_tasks_succ(data) {
 
         let task_container_colorcode = document.createElement('div');
 
+        let task_select = document.createElement('select');
+
         let task_toggle = document.createElement('input');
         let task_name = document.createElement('p');
         let task_date = document.createElement('input');
         let task_delete = document.createElement('button');
-        task_delete.innerHTML = 'Delete';
+        task_delete.innerHTML = 'delete';
 
-        task_delete.addEventListener('click', function() {
+        task_delete.addEventListener('click', function(e) {
 
             remove_task(task.id, selected_listId);
 
             task.parentNode.removeChild(task);
         });
 
-        let task_select = document.createElement('select');
         task_select.addEventListener('input', function(e) {
-
-            changePriority(this.value, this.parentNode.parentNode.id);
+            let parent = this.parentNode.parentNode.id
+            changePriority(this.value, parent);
             if(task_select.value == "high") {
                 task_container_colorcode.classList.remove('medium', 'low');
                 task_container_colorcode.classList.add('high');
@@ -62,6 +63,14 @@ function get_tasks_succ(data) {
                 task_container_colorcode.classList.add('low');
             }
         });
+
+        task_date.addEventListener('input', function(e) {
+            let parent = this.parentNode.parentNode.id
+            let date = new Date(this.value).toISOString();
+            console.log(date);
+            changeDeadline(date, parent);
+
+        })
 
         //OPTIONS FOR THE SELECT LIST
         var option_1 = document.createElement('option');
@@ -136,7 +145,6 @@ function get_tasks_succ(data) {
 
         }
 
-
         //CLICK FUNCTION FOR LI; CHECKED OF UNCHECKED
         task_toggle.addEventListener('click', function(evt) {
 
@@ -157,8 +165,8 @@ function get_tasks_succ(data) {
             }
 
 
-            let t_id = this.parentNode.parentNode.id;
-            changeCompleted(this.checked, t_id);
+            let task_id = this.parentNode.parentNode.id;
+            changeCompleted(this.checked, task_id);
             changeCompletedText();
 
         });
@@ -197,24 +205,25 @@ function changePriority(value, taskId) {
     let cfg = {
         method: "POST",
         body: upload
-    }
+    };
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-    let url = "http://localhost:3000/tasks/priority?token=" + token;
-    //var url = 'https://burgerapplication.herokuapp.com/tasks/priority?token=" + token;
+    //let url = "http://localhost:3000/tasks/priority?token=" + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/priority?token=' + token;
 
     superfetch(url, "json", change_pri_succ, change_pri_error, cfg);
-}
+};
 
 function change_pri_succ(data) {
     console.log(data);
-}
+};
 
 function change_pri_error(err) {
     console.log(err);
-}
+};
 
+//CHANGE COMPLETED------------
 function changeCompleted(value, taskId) {
 
     let upload = JSON.stringify({
@@ -230,16 +239,46 @@ function changeCompleted(value, taskId) {
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-    let url = "http://localhost:3000/tasks/completed?token=" + token;
-    //var url = 'https://burgerapplication.herokuapp.com/tasks/completed?token=" + token;
-
+    //let url = "http://localhost:3000/tasks/completed?token=" + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/completed?token=' + token;
     superfetch(url, "json", change_completed_succ, change_completed_error, cfg);
 }
 
 function change_completed_succ(data) {
     console.log(data);
+    getNotifications()
 };
 
 function change_completed_error(err) {
     console.log(err);
 };
+
+//------------------------------
+
+function changeDeadline(date, taskId){
+
+    let upload = JSON.stringify({
+        deadline_date: date,
+        task_id: taskId
+    });
+
+    let cfg = {
+        method: "POST",
+        body: upload
+    };
+
+    let token = JSON.parse(localStorage.getItem('logindata')).token;
+
+    let url = "http://localhost:3000/tasks/deadline?token=" + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/deadline?token=' + token;
+
+    superfetch(url, "json", change_deadline_succ, change_deadline_error, cfg);
+}
+
+function change_deadline_succ(data) {
+    console.log(data);
+    getNotifications();
+}
+function change_deadline_error(err) {
+    console.log(err);
+}
