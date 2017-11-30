@@ -270,7 +270,7 @@ function changeDeadline(date, taskId){
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
 
-    let url = "http://localhost:3000/tasks/deadline?token=" + token;
+    //let url = "http://localhost:3000/tasks/deadline?token=" + token;
     let url = 'https://burgerapplication.herokuapp.com/tasks/deadline?token=' + token;
 
     superfetch(url, "json", change_deadline_succ, change_deadline_error, cfg);
