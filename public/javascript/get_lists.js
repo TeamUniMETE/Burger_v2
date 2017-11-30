@@ -28,7 +28,7 @@ function getLists() {
 
 
     //let url = 'http://localhost:3000/lists?user_id=' + user_id + '&token=' + token;
-    let url = 'https://burgerapplication.herokuapp.com/lists?user_id=' + user_id + '&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/lists/?user_id=' + user_id + '&token=' + token;
 
     var cfg = {
         method: "GET"
@@ -69,7 +69,7 @@ function get_all_lists_succ(data) {
             let user_id = user.id;
 
             //let url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
-            let url = 'https://burgerapplication.herokuapp.com/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
+            let url = 'https://burgerapplication.herokuapp.com/lists/single/?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
 
             let cfg = {
                 method:'GET'
@@ -365,7 +365,7 @@ function changePrivacy(privacy, list_name, listId){
     let userId = user.id;
 
     //let url = "http://localhost:3000/lists/priv?privacy=" + privacy + '&token=' + token + '&list_name' + list_name;
-    let url = 'https://burgerapplication.herokuapp.com/lists/priv?privacy=' + privacy + '&token=' + token + '&list_name' + list_name;
+    let url = 'https://burgerapplication.herokuapp.com/lists/priv/?privacy=' + privacy + '&token=' + token + '&list_name' + list_name;
 
     let upload = JSON.stringify({
         user_id: userId,
@@ -397,7 +397,7 @@ function changeDescription(text, listId) {
     let userId = user.id;
 
     //let url = "http://localhost:3000/lists/desc?token=" + token;
-    var url = 'https://burgerapplication.herokuapp.com/lists/desc?token=' + token;
+    var url = 'https://burgerapplication.herokuapp.com/lists/desc/?token=' + token;
 
     let upload = JSON.stringify({
         user_id: userId,

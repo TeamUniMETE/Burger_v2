@@ -4,14 +4,12 @@ var dropbtn = document.getElementById('dropbtn');
 function getNotifications() {
 
     let user = JSON.parse(localStorage.getItem('logindata'));
-    let token = user.token;
-    let user_id = user.id;
     let date = new Date();
     let today = getToday(date);
 
 
     //var url = 'http:localhost:3000/tasks/notifications?user_id=' + user_id + '&today='+ today +'&token=' + token;
-    let url = 'https://burgerapplication.herokuapp.com/tasks/notifications?user_id=' + user_id + '&today='+ today +'&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/notifications/?user_id=' + user.id + '&today='+ today +'&token=' + user.token;
 
     let cfg = {
         method: 'GET'
@@ -55,7 +53,7 @@ function get_notifications_succ(data) {
             let user_id = user.id;
 
             //let url = 'http://localhost:3000/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
-            let url = 'https://burgerapplication.herokuapp.com/lists/single?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
+            let url = 'https://burgerapplication.herokuapp.com/lists/single/?user_id=' + user_id + '&token=' + token + '&list_id=' + s_id;
 
             let cfg = {
                 method:'GET'
