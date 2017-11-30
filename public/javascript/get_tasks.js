@@ -136,11 +136,14 @@ function get_tasks_succ(data) {
             //GIVING THE CLASS IT SHOULD HAVE
             item.classList = 'completed tasks';
         } else {
+            taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[i + 1]);
+            /*
             if(task_select.value == "high") {
                 taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[1]);
             } else {
                 taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[i + 1]);
             }
+            */
             //CHANGING THE CLASS
             item.classList = 'uncompleted tasks';
 
