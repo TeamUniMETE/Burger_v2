@@ -18,11 +18,8 @@ var user_search = document.getElementById('user_search').addEventListener('input
         method: 'GET'
     };
 
-    if(regexNumChar(name)){
-        alert('Only characters and numbers');
-    }else{
-        superfetch(url, "json", user_search_succ, user_search_error, cfg);
-    }
+    superfetch(url, "json", user_search_succ, user_search_error, cfg);
+
 
 
 });
@@ -181,12 +178,10 @@ function view_error(err) {
     let message = document.createElement('p');
     message.innerHTML = err.msg;
 
-
     //APPENDING
     div.appendChild(message);
     listContainer.appendChild(div);
 }
-
 
 function user_search_error(err) {
 

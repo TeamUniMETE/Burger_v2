@@ -128,7 +128,7 @@ router.post('/add', bodyParser, function(req, res) {
     });
 });
 
-router.post('/priority', bodyParser, function(req, res) {
+router.put('/priority', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
@@ -149,7 +149,7 @@ router.post('/priority', bodyParser, function(req, res) {
 
 });
 
-router.post('/completed', bodyParser, function(req, res) {
+router.put('/completed', bodyParser, function(req, res) {
     var upload = JSON.parse(req.body);
 
     var sql = `PREPARE update_completed(boolean, int) AS
@@ -168,7 +168,7 @@ router.post('/completed', bodyParser, function(req, res) {
     });
 });
 
-router.post('/deadline', bodyParser, function(req, res) {
+router.put('/deadline', bodyParser, function(req, res) {
     var upload = JSON.parse(req.body);
 
     var sql = `PREPARE update_deadline(date, int) AS

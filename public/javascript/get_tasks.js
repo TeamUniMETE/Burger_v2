@@ -208,7 +208,7 @@ function changePriority(value, taskId) {
     console.log(upload);
 
     let cfg = {
-        method: "POST",
+        method: "PUT",
         body: upload
     };
 
@@ -238,7 +238,7 @@ function changeCompleted(value, taskId) {
 
 
     let cfg = {
-        method: "POST",
+        method: "PUT",
         body: upload
     }
 
@@ -268,7 +268,7 @@ function changeDeadline(date, taskId){
     });
 
     let cfg = {
-        method: "POST",
+        method: "PUT",
         body: upload
     };
 
