@@ -66,9 +66,10 @@ function get_tasks_succ(data) {
 
         task_date.addEventListener('input', function(e) {
             let parent = this.parentNode.parentNode.id
-            let date = new Date(this.value).toISOString();
-            console.log(date);
-            changeDeadline(date, parent);
+            let date = new Date(this.value);
+            let today = getToday(date);
+
+            changeDeadline(today, parent);
 
         })
 
