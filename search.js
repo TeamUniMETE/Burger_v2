@@ -51,7 +51,6 @@ router.get('/view', function(req, res) {
         return; //quit
     } else {
 
-    console.log(data);
     res.status(200).json(data);
 
     }
@@ -80,7 +79,6 @@ router.get('/tasks', function(req, res) {
             return; //quit
         } else {
 
-        console.log(data);
         res.status(200).json(data);
 
         }

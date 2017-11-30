@@ -46,8 +46,6 @@ router.post('/auth/', bodyParser, function (req, res) {
                     EXECUTE get_user('${upload.loginname}')`;
 
 
-    console.log(sql);
-
     db.any(sql).then(function(data) {
 
         db.any("DEALLOCATE get_user");

@@ -48,7 +48,6 @@ router.get('/', function(req, res) {
         return; //quit
     } else {
 
-    console.log(data);
     res.status(200).json(data);
 
     }
@@ -79,7 +78,6 @@ router.get('/single', function(req, res) {
         return; //quit
     } else {
 
-    console.log(data);
     res.status(200).json(data);
 
     }
@@ -116,13 +114,9 @@ router.post('/', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
-    console.log('upload' + upload);
-
     var sql = `PREPARE insert_list (int, text, boolean, int, text) AS
             INSERT INTO lists VALUES(DEFAULT, $2, $3, $4, $5);
             EXECUTE insert_list(0, '${upload.list_name}', '${upload.private}', '${upload.user_id}', '${upload.desc}')`;
-
-    console.log(sql);
 
     db.any(sql).then(function(data) {
 

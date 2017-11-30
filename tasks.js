@@ -60,8 +60,6 @@ router.get('/n', function(req, res) {
 
     var user_id = req.query.user_id;
     var date = req.query.today;
-    console.log(date);
-    console.log(user_id);
 
     var sql = `PREPARE get_notifications(text, int) AS
             SELECT * FROM tasks WHERE deadline_date=$1 AND user_id=$2 AND completed=false;
@@ -117,7 +115,6 @@ router.post('/add', bodyParser, function(req, res) {
             INSERT INTO tasks VALUES(DEFAULT, $2, $3, $4, $5, $6, $7);
             EXECUTE insert_task(0, '${upload.task_name}', 0, '${upload.priority}', '${upload.completed}', '${upload.list_id}', '${upload.user_id}')`;
 
-    console.log(sql);
 
     db.any(sql).then(function(data) {
 
