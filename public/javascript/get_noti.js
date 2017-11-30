@@ -23,6 +23,15 @@ function getToday(d) {
     let day = d.getDate();
     let year = d.getFullYear();
     let month = d.getMonth() + 1;
+
+    //need double digits in day and month.
+    if(day <= 9) {
+        day = '0' + day;
+    }
+    if(month <= 9){
+        month = '0' + month;
+    }
+
     let date = year + '-' + month + '-' + day;
 
     return date;
