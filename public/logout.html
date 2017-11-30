@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>Burger</title>
     <link rel="stylesheet" href="css/reg_log.css" />
+    <link rel="icon" type="image/gif" href="images/favicon.ico"/>
     <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 </head>
 
@@ -13,8 +14,8 @@
         <div class="w-head">
             <nav>
                 <ul class="w-nav">
-                    <li role="presentation"><a class="nav-items" href="index.html">Register</a></li>
-                    <li role="presentation"><a class="nav-items" href="login.html" />Login</a>
+                    <li role="presentation"><a class="nav-items" href="register.html">Register</a></li>
+                    <li role="presentation"><a class="nav-items" href="index.html" />Login</a>
                     </li>
                 </ul>
             </nav>
@@ -28,12 +29,12 @@
     </div>
     <div class="footer">
     </div>
-<script>
-window.onload = function(){
-    localStorage.removeItem('logindata');
-    console.log('loggedOut');
-}
-
-</script>
+    <script>
+        window.onload = function() {
+            localStorage.removeItem('logindata');
+            console.log('loggedOut');
+        }
+    </script>
 </body>
+
 </html>

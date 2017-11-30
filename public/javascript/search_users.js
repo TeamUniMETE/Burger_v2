@@ -20,8 +20,6 @@ var user_search = document.getElementById('user_search').addEventListener('input
 
     superfetch(url, "json", user_search_succ, user_search_error, cfg);
 
-
-
 });
 
 function user_search_succ(data) {
@@ -109,9 +107,8 @@ function view_succ(data) {
 
         function get_users_tasks_succ(search_data) {
 
-            console.log(search_data);
             for(let j = 0; j < search_data.length; j++) {
-                console.log('i have runned ' + j + 1 + ' times');
+
                 let task = document.createElement('li');
                 task.classList = 'view_task_li';
 
