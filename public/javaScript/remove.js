@@ -1,8 +1,8 @@
 function remove_task(taskId, listId) {
 
     let token = JSON.parse(localStorage.getItem('logindata')).token;
-    let url = 'http://localhost:3000/tasks/task?taskid=' + taskId + '&listid=' + listId + '&token=' + token;
-
+    //let url = 'http://localhost:3000/tasks/task?taskid=' + taskId + '&listid=' + listId + '&token=' + token;
+    let url = 'https://burgerapplication.herokuapp.com/tasks/task?taskid=' + taskId + '&listid=' + listId + '&token=' + token;
     let cfg = {
         method: 'DELETE'
     }
