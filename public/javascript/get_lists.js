@@ -93,10 +93,6 @@ function get_single_list_succ(data) {
 
     //REMOVING THE LAST LIST FROM LISTCONTAINER IF THERE WERE ANY
 
-    if(description_area.hasChildNodes()){
-        description_area.removeChild(description_area.childNodes[0]);
-    }
-
     while (listContainer.hasChildNodes()) {
         listContainer.removeChild(listContainer.childNodes[0]);
     }
@@ -116,7 +112,6 @@ function get_single_list_succ(data) {
     head_container.classList = 'head_container';
 
     //FIRST HEADCONTAINER -- TOGGLEBOX -- LISTNAME --------------
-
     var head_container_text = document.createElement('div');
     head_container_text.classList = 'head_container_text'
 
@@ -137,11 +132,6 @@ function get_single_list_succ(data) {
     head_description.classList = 'head_description';
     head_description.value = res_data.description;
 
-    /*
-        -- APPENDING TO THE SECOND HEADCONTAINER --
-    */
-    head_container_description.appendChild(head_description);
-
     //THIRD HEADCONTAINER -- ADDING TASKS ------------------------
     var head_container_add = document.createElement('div');
     head_container_add.classList = 'head_container_add'
@@ -153,17 +143,11 @@ function get_single_list_succ(data) {
     head_button_add.innerHTML = 'add';
 
     //FOURTH HEADCONTAINER -- DELETE LIST -----------------------
-
     var head_container_delete = document.createElement('div');
     head_container_delete.classList = 'head_container_delete'
 
     var head_button_delete = document.createElement('button');
     head_button_delete.innerHTML = 'delete';
-
-    /*
-        -- APPENDING TO THE THIRD HEADCONTAINER --
-    */
-    head_container_delete.appendChild(head_button_delete);
 
     //EVENT LISTENERS FOR ALL -------------------------------
 
@@ -275,7 +259,6 @@ function get_single_list_succ(data) {
     });
 
     //CREATING A -COMPLETED- UL THAT HOUSES THE COMPLETED TASKS-------------
-
     var ul_completed = document.createElement('ul');
     ul_completed.id = res_data.list_name + 'completed';
     ul_completed.classList = "group";
@@ -292,7 +275,6 @@ function get_single_list_succ(data) {
 
 
     //APPENDING TO COMPLETED
-
     completed_container.appendChild(li_completed_name);
     li_completed.appendChild(completed_container);
     ul_completed.appendChild(li_completed);
@@ -359,7 +341,6 @@ function get_all_lists_error(err) {
 
 function changePrivacy(privacy, list_name, listId){
 
-
     let user = JSON.parse(localStorage.getItem('logindata'));
     let token = user.token;
     let userId = user.id;
@@ -374,7 +355,7 @@ function changePrivacy(privacy, list_name, listId){
     });
 
     var cfg = {
-        method: "POST",
+        method: "PUT",
         body: upload
     }
 
@@ -406,7 +387,7 @@ function changeDescription(text, listId) {
     });
 
     var cfg = {
-        method: "POST",
+        method: "PUT",
         body: upload
     }
 
@@ -420,4 +401,4 @@ function changeDescription(text, listId) {
         console.log(err);
     }
 
-}
+};

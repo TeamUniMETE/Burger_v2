@@ -138,6 +138,7 @@ function get_tasks_succ(data) {
         } else {
             taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[i + 1]);
             /*
+            //DECIDED TO NOT ORDER THEM IN THIS WAY
             if(task_select.value == "high") {
                 taskContainer_uncompleted.insertBefore(task, taskContainer_uncompleted.childNodes[1]);
             } else {

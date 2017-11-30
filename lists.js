@@ -129,7 +129,7 @@ router.post('/', bodyParser, function(req, res) {
     });
 });
 
-router.post('/priv', bodyParser, function(req, res) {
+router.put('/priv', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
     var privacy = req.query.privacy;
@@ -151,7 +151,7 @@ router.post('/priv', bodyParser, function(req, res) {
 
 });
 
-router.post('/desc', bodyParser, function(req, res) {
+router.put('/desc', bodyParser, function(req, res) {
 
     var upload = JSON.parse(req.body);
 
