@@ -1,7 +1,7 @@
 # Burger
 
 appLink(Heroku);
-https://uia-burger.herokuapp.com/
+https://burgerapplication.herokuapp.com/
 
 Mads Østrem: https://github.com/RoyalKode
 
